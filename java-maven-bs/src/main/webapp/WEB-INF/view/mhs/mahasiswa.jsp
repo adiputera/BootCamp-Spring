@@ -1,26 +1,26 @@
 <%@ include file="/WEB-INF/view/MasterPage/layout.jsp"%>
-	<button type="button" class="tbladd btn btn-info btn-lg">Tambah Employee</button>
-	<table  id="data-emp" class="table table-bordered table-hover">
+	<button type="button" class="tbladd btn btn-info btn-lg">Tambah Mahasiswa</button>
+	<table  id="data-mhs" class="table table-bordered table-hover">
 		<thead>
 			<th>ID</th>
-			<th>Name</th>
-			<th>alamat</th>
-			<th>Email</th>
+			<th>Nama</th>
+			<th>Alamat</th>
+			<th>Universitas</th>
 			<th>Action</th>
 		</thead>
-		<tbody id="isi-emp">
-			<c:forEach items="${emps }" var="emp">
+		<tbody id="isi-mhs">
+			<c:forEach items="${mhs }" var="mh">
 				<tr>
-					<td>${emp.id }</td>
-					<td>${emp.name }</td>
-					<td>${emp.address }</td>
-					<td>${emp.email }</td>
+					<td>${mh.nim }</td>
+					<td>${mh.nama }</td>
+					<td>${mh.alamat }</td>
+					<td>${mh.univ }</td>
 					<td>
-						<a href="#" key-id="${emp.id }" class="tbldetail btn btn-success">Detail</a>
+						<a href="#" key-id="${mh.nim }" class="tbldetail btn btn-success">Detail</a>
 						|
-						<a href="#" key-id="${emp.id }" class="tblupdate btn btn-info">Update</a>
+						<a href="#" key-id="${mh.nim }" class="tblupdate btn btn-info">Update</a>
 						|
-						<a href="#konfirmdel" data-toggle="modal" key-id="${emp.id }" class="delete btn btn-danger">Delete</a> 
+						<a href="#konfirmdel" data-toggle="modal" key-id="${mh.nim }" class="delete btn btn-danger">Delete</a> 
 					</td>
 				</tr>
 			</c:forEach>
@@ -35,7 +35,7 @@
 				<div class="modal-header">
 					
 					<button type="button" class="close modalcancel" data-dismiss="modal">&times;</button>
-					<h4 id="judul-modal">Tambahkan Employee</h4>
+					<h4 id="judul-modal">Tambahkan Mahasiswa</h4>
 				</div>
 				<div class="modal-body">
 					<form method="post">
@@ -43,21 +43,21 @@
 							<tr>
 								<td>Nama</td>
 								<td>:</td>
-								<td><input type="text" name="name" id="name" /></td>
+								<td><input type="text" name="nama" id="nama" /></td>
 							</tr>
 							<tr>
 								<td>Alamat</td>
 								<td>:</td>
-								<td><input type="text" name="address" id="address"/></td>
+								<td><input type="text" name="alamat" id="alamat"/></td>
 							</tr>
 							<tr>
-								<td>Email</td>
+								<td>Universitas</td>
 								<td>:</td>
-								<td><input type="email" name="email" id="email" /></td>
+								<td><input type="email" name="univ" id="univ" /></td>
 							</tr>
 							<tr>
 								<td colspan="2"><button type="button" class="btn btn-primary" id="tblsimpan">Simpan</button></td>
-								<td><input type="hidden" name="id" id="id"></td>
+								<td><input type="hidden" name="nim" id="nim"></td>
 							</tr>
 						</table>
 					</form>
@@ -110,7 +110,7 @@
 							<td>Alamat </td><td> : </td><td id="pop-address" style="padding:10px;"></td>
 						</tr>
 						<tr>
-							<td>Email </td><td> : </td><td id="pop-email" style="padding:10px;"></td>
+							<td>Universitas </td><td> : </td><td id="pop-univ" style="padding:10px;"></td>
 						</tr>
 					</table>
 				</div>
@@ -134,12 +134,12 @@
 			var id = $(this).attr('key');
 			console.log('klik tombol hapus')
 			$.ajax({
-				url: '${pageContext.request.contextPath}/emp/delete/'+id,
+				url: '${pageContext.request.contextPath}/mhs/delete/'+id,
 				type : 'DELETE',
 				success : function(response) {
 					$('#konfirmdel').modal('hide');
 					reloadTable();
-					$('#konfirmdel').load('${pageContext.request.contextPath}/emp #konfirmdel')
+					$('#konfirmdel').load('${pageContext.request.contextPath}/mhs #konfirmdel')
 				}, error : function(){
 					
 				}
@@ -148,22 +148,22 @@
 		
 		function reloadTable(){
 			$.ajax({
-				url: '${pageContext.request.contextPath}/emp/get-all',
+				url: '${pageContext.request.contextPath}/mhs/get-all',
 				type: "GET",
 				dataType: "json",
 				success:function(data) {
-						$('#data-emp').DataTable().destroy();
-						$('#isi-emp').empty();
+						$('#data-mhs').DataTable().destroy();
+						$('#isi-mhs').empty();
 						$.each(data, function(key, val) {
-								$('#isi-emp').append('<tr><td>'+ val.id +'</td><td>'+ val.name +'</td><td>'+ val.address +'</td><td>'+ val.email +'</td>'
-										+'<td><a href="#" key-id="'+val.id+'" class="tbldetail btn btn-success">Detail</a>' 
+								$('#isi-mhs').append('<tr><td>'+ val.nim +'</td><td>'+ val.nama +'</td><td>'+ val.alamat +'</td><td>'+ val.univ +'</td>'
+										+'<td><a href="#" key-id="'+val.nim+'" class="tbldetail btn btn-success">Detail</a>' 
 										+' | ' 
-										+'<a href="#" key-id="'+val.id+'" class="tblupdate btn btn-info">Update</a>'
+										+'<a href="#" key-id="'+val.nim+'" class="tblupdate btn btn-info">Update</a>'
 										+' | '
-										+'<a href="#konfirmdel" data-toggle="modal" key-id="'+val.id+'" class="delete btn btn-danger">Delete</a>');
+										+'<a href="#konfirmdel" data-toggle="modal" key-id="'+val.nim+'" class="delete btn btn-danger">Delete</a>');
 								
 						});
-						$('#data-emp').DataTable({
+						$('#data-mhs').DataTable({
 						      'paging'      : true,
 						      'lengthChange': false,
 						      'searching'   : true,
@@ -176,7 +176,7 @@
 		} // end fungsi reload table
 		
 		$('.tbladd').on('click', function(){
-			$('#judul-modal').html('Tambah Data Employee');
+			$('#judul-modal').html('Tambah Data Mahasiswa');
 			$('#frminsert').modal('show');
 			clearForm();
 		});
@@ -185,20 +185,20 @@
 		$('#tblsimpan').on('click', function(evt){
 			console.log('click tombol simpan');
 			evt.preventDefault();
-			var id = $('#id').val();
-			var name = $('#name').val();
-			var address = $('#address').val();
-			var email = $('#email').val();
-			var employee = {
-					'id' : id,
-					'name' : name,
-					'address' : address,
-					'email' : email
+			var nim = $('#nim').val();
+			var nama = $('#nama').val();
+			var alamat = $('#alamat').val();
+			var univ = $('#univ').val();
+			var mahasiswa = {
+					'nim' : nim,
+					'nama' : nama,
+					'alamat' : alamat,
+					'univ' : univ
 			};
 			$.ajax({
 				type : 'post',
-				url : '${pageContext.request.contextPath}/emp/save',
-				data : JSON.stringify(employee),
+				url : '${pageContext.request.contextPath}/mhs/save',
+				data : JSON.stringify(mahasiswa),
 				contentType : 'application/json',
 				success : function(){
 					$("#frminsert").modal("hide");
@@ -216,17 +216,17 @@
 			var id = $(this).attr('key-id');
 			console.log('klik edit');
 			$.ajax({
-					url: '${pageContext.request.contextPath}/emp/get-one/'+id,
+					url: '${pageContext.request.contextPath}/mhs/get-one/'+id,
 					type: "GET",
 					dataType: "json",
 					success:function(data) {	
 						clearForm();
 						console.log('sukses ambil data');
-						$('#judul-modal').html('Update Data Employee');
-						$('#id').val(data.id);
-						$('#name').val(data.name);
-						$('#address').val(data.address);
-						$('#email').val(data.email);
+						$('#judul-modal').html('Update Data Mahasiswa');
+						$('#nim').val(data.nim);
+						$('#nama').val(data.nama);
+						$('#alamat').val(data.alamat);
+						$('#univ').val(data.univ);
 						$("#frminsert").modal("show");
 					}
 			});
@@ -236,36 +236,36 @@
 			var id = $(this).attr('key-id');
 			console.log('klik detail');
 			$.ajax({
-					url: '${pageContext.request.contextPath}/emp/get-one/'+id,
+					url: '${pageContext.request.contextPath}/mhs/get-one/'+id,
 					type: "GET",
 					dataType: "json",
 					success:function(data) {	
 						clearForm();
 						console.log('sukses ambil data');
-						$('#pop-id').html(data.id);
-						$('#pop-name').html(data.name);
-						$('#pop-address').html(data.address);
-						$('#pop-email').html(data.email);
+						$('#pop-id').html(data.nim);
+						$('#pop-name').html(data.nama);
+						$('#pop-address').html(data.alamat);
+						$('#pop-univ').html(data.univ);
 						$("#popdetail").modal("show");
 					}
 			});
 		}); // end fungsi detail
 		
 		$('.modalcancel').on('click', function(){
-			$('#judul-modal').html('Tambahkan Data Employee');
+			$('#judul-modal').html('Tambahkan Data Mahasiswa');
 		});
 		
 		function clearForm() {
-			$('#id').val('');
-			$('#name').val('');
-			$('#address').val('');
-			$('#email').val('');
+			$('#nim').val('');
+			$('#nama').val('');
+			$('#alamat').val('');
+			$('#univ').val('');
 		}
 	});
 </script>
 <script>
   $(function() {
-    $('#data-emp').DataTable({
+    $('#data-mhs').DataTable({
       'paging'      : true,
       'lengthChange': false,
       'searching'   : true,
