@@ -67,14 +67,23 @@
 				type: "GET",
 				dataType: "json",
 				success:function(data) {
+						$('#data-emp').DataTable().destroy();
 						$('#isi-emp').empty();
 						$.each(data, function(key, val) {
 								$('#isi-emp').append('<tr><td>'+ val.id +'</td><td>'+ val.name +'</td><td>'+ val.address +'</td><td>'+ val.email +'</td>'
 										+'<td><a href="#konfirmdel" data-toggle="modal" id="'+val.id+'" class="delete btn btn-danger">Delete</a>' 
 										+'|' 
 										+'<a href="#" id="'+val.id+'" class="tblupdate btn btn-info">Update</a></td>');
-						//DataTableEmp();
+								
 						});
+						$('#data-emp').DataTable({
+						      'paging'      : true,
+						      'lengthChange': false,
+						      'searching'   : true,
+						      'ordering'    : true,
+						      'info'        : true,
+						      'autoWidth'   : false
+						    });
 				}
 			});
 		} // end fungsi reload table
@@ -89,10 +98,12 @@
 		$('#tblsimpan').on('click', function(evt){
 			console.log('click tombol simpan');
 			evt.preventDefault();
+			var id = $('#id').val();
 			var name = $('#name').val();
 			var address = $('#address').val();
 			var email = $('#email').val();
 			var employee = {
+					'id' : id,
 					'name' : name,
 					'address' : address,
 					'email' : email
@@ -106,6 +117,7 @@
 					$("#frminsert").modal("hide");
 					console.log('simpan');
 					reloadTable();
+					clearForm();
 					//alert('save '+ name + ' berhasil');
 				}, error : function(){
 					alert('save failed');
@@ -337,7 +349,7 @@
 								<td><input type="email" name="email" id="email" /></td>
 							</tr>
 							<tr>
-								<td colspan="2"><button type="button" class="btn btn-primary">Simpan</button></td>
+								<td colspan="2"><button type="button" class="btn btn-primary" id="tblsimpan">Simpan</button></td>
 								<td><input type="hidden" name="id" id="id"></td>
 							</tr>
 						</table>
