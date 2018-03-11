@@ -1,31 +1,31 @@
 <%@ include file="/WEB-INF/view/MasterPage/layout.jsp"%>
-	<button type="button" class="tbladd btn btn-info btn-lg">Tambah Employee</button>
-	<table  id="data-emp" class="table table-bordered table-hover">
+	<button type="button" class="tbladd btn btn-info btn-lg">Tambah Departemen</button>
+	<table  id="data-dep" class="table table-bordered table-hover">
 		<thead>
 			<th>ID</th>
-			<th>Name</th>
-			<th>alamat</th>
+			<th>Nama Departemen</th>
+			<th>Alamat</th>
 			<th>Email</th>
 			<th>Action</th>
 		</thead>
-		<tbody id="isi-emp">
-			<c:forEach items="${emps }" var="emp">
+		<tbody id="isi-dep">
+			<c:forEach items="${deps }" var="dep">
 				<tr>
-					<td>${emp.id }</td>
-					<td>${emp.name }</td>
-					<td>${emp.address }</td>
-					<td>${emp.email }</td>
+					<td>${dep.id }</td>
+					<td>${dep.namaDepartemen }</td>
+					<td>${dep.alamat }</td>
+					<td>${dep.email }</td>
 					<td>
-						<a href="#" key-id="${emp.id }" class="tbldetail btn btn-success">Detail</a>
+						<a href="#" key-id="${dep.id }" class="tbldetail btn btn-success">Detail</a>
 						|
-						<a href="#" key-id="${emp.id }" class="tblupdate btn btn-info">Update</a>
+						<a href="#" key-id="${dep.id }" class="tblupdate btn btn-info">Update</a>
 						|
-						<a href="#konfirmdel" data-toggle="modal" key-id="${emp.id }" class="delete btn btn-danger">Delete</a> 
+						<a href="#konfirmdel" data-toggle="modal" key-id="${dep.id }" class="delete btn btn-danger">Delete</a> 
 					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
-	</table> <!-- end table employee -->
+	</table> <!-- end table -->
 	
 	<!-- begin form save -->
 	<div class="modal fade" id="frminsert" role="dialog">
@@ -35,20 +35,20 @@
 				<div class="modal-header">
 					
 					<button type="button" class="close modalcancel" data-dismiss="modal">&times;</button>
-					<h4 id="judul-modal">Tambahkan Employee</h4>
+					<h4 id="judul-modal">Tambahkan Departemen</h4>
 				</div>
 				<div class="modal-body">
 					<form method="post">
 						<table>
 							<tr>
-								<td>Nama</td>
+								<td>Nama Departemen</td>
 								<td>:</td>
-								<td><input type="text" name="name" id="name" /></td>
+								<td><input type="text" name="namaDepartemen" id="namaDepartemen" /></td>
 							</tr>
 							<tr>
 								<td>Alamat</td>
 								<td>:</td>
-								<td><input type="text" name="address" id="address"/></td>
+								<td><input type="text" name="alamat" id="alamat"/></td>
 							</tr>
 							<tr>
 								<td>Email</td>
@@ -95,7 +95,7 @@
 		<div class="modal-dialog modal-confirm">
 			<div class="modal-content">
 				<div class="modal-header">			
-					<h4 class="modal-title">Detail Employee</h4>	
+					<h4 class="modal-title">Detail Departemen</h4>	
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 				<div class="modal-body">
@@ -104,7 +104,7 @@
 							<td>ID </td><td> : </td><td id="pop-id" style="padding:10px;"></td>
 						</tr>
 						<tr>
-							<td>Nama </td><td> : </td><td id="pop-name" style="padding:10px;"></td>
+							<td>Nama Departemen </td><td> : </td><td id="pop-name" style="padding:10px;"></td>
 						</tr>
 						<tr>
 							<td>Alamat </td><td> : </td><td id="pop-address" style="padding:10px;"></td>
@@ -134,12 +134,12 @@
 			var id = $(this).attr('key');
 			console.log('klik tombol hapus')
 			$.ajax({
-				url: '${pageContext.request.contextPath}/emp/delete/'+id,
+				url: '${pageContext.request.contextPath}/dep/delete/'+id,
 				type : 'DELETE',
 				success : function(response) {
 					$('#konfirmdel').modal('hide');
 					reloadTable();
-					$('#konfirmdel').load('${pageContext.request.contextPath}/emp #konfirmdel')
+					$('#konfirmdel').load('${pageContext.request.contextPath}/dep #konfirmdel')
 				}, error : function(){
 					
 				}
@@ -148,14 +148,14 @@
 		
 		function reloadTable(){
 			$.ajax({
-				url: '${pageContext.request.contextPath}/emp/get-all',
+				url: '${pageContext.request.contextPath}/dep/get-all',
 				type: "GET",
 				dataType: "json",
 				success:function(data) {
-						$('#data-emp').DataTable().destroy();
-						$('#isi-emp').empty();
+						$('#data-dep').DataTable().destroy();
+						$('#isi-dep').empty();
 						$.each(data, function(key, val) {
-								$('#isi-emp').append('<tr><td>'+ val.id +'</td><td>'+ val.name +'</td><td>'+ val.address +'</td><td>'+ val.email +'</td>'
+								$('#isi-dep').append('<tr><td>'+ val.id +'</td><td>'+ val.namaDepartemen +'</td><td>'+ val.alamat +'</td><td>'+ val.email +'</td>'
 										+'<td><a href="#" key-id="'+val.id+'" class="tbldetail btn btn-success">Detail</a>' 
 										+' | ' 
 										+'<a href="#" key-id="'+val.id+'" class="tblupdate btn btn-info">Update</a>'
@@ -163,7 +163,7 @@
 										+'<a href="#konfirmdel" data-toggle="modal" key-id="'+val.id+'" class="delete btn btn-danger">Delete</a>');
 								
 						});
-						$('#data-emp').DataTable({
+						$('#data-dep').DataTable({
 						      'paging'      : true,
 						      'lengthChange': false,
 						      'searching'   : true,
@@ -176,7 +176,7 @@
 		} // end fungsi reload table
 		
 		$('.tbladd').on('click', function(){
-			$('#judul-modal').html('Tambah Data Employee');
+			$('#judul-modal').html('Tambah Data Departemen');
 			$('#frminsert').modal('show');
 			clearForm();
 		});
@@ -186,19 +186,19 @@
 			console.log('click tombol simpan');
 			evt.preventDefault();
 			var id = $('#id').val();
-			var name = $('#name').val();
-			var address = $('#address').val();
+			var name = $('#namaDepartemen').val();
+			var address = $('#alamat').val();
 			var email = $('#email').val();
-			var employee = {
+			var departemen = {
 					'id' : id,
-					'name' : name,
-					'address' : address,
+					'namaDepartemen' : name,
+					'alamat' : address,
 					'email' : email
 			};
 			$.ajax({
 				type : 'post',
-				url : '${pageContext.request.contextPath}/emp/save',
-				data : JSON.stringify(employee),
+				url : '${pageContext.request.contextPath}/dep/save',
+				data : JSON.stringify(departemen),
 				contentType : 'application/json',
 				success : function(){
 					$("#frminsert").modal("hide");
@@ -216,16 +216,16 @@
 			var id = $(this).attr('key-id');
 			console.log('klik edit');
 			$.ajax({
-					url: '${pageContext.request.contextPath}/emp/get-one/'+id,
+					url: '${pageContext.request.contextPath}/dep/get-one/'+id,
 					type: "GET",
 					dataType: "json",
 					success:function(data) {	
 						clearForm();
 						console.log('sukses ambil data');
-						$('#judul-modal').html('Update Data Employee');
+						$('#judul-modal').html('Update Data Departemen');
 						$('#id').val(data.id);
-						$('#name').val(data.name);
-						$('#address').val(data.address);
+						$('#namaDepartemen').val(data.namaDepartemen);
+						$('#alamat').val(data.alamat);
 						$('#email').val(data.email);
 						$("#frminsert").modal("show");
 					}
@@ -236,15 +236,15 @@
 			var id = $(this).attr('key-id');
 			console.log('klik detail');
 			$.ajax({
-					url: '${pageContext.request.contextPath}/emp/get-one/'+id,
+					url: '${pageContext.request.contextPath}/dep/get-one/'+id,
 					type: "GET",
 					dataType: "json",
 					success:function(data) {	
 						clearForm();
 						console.log('sukses ambil data');
 						$('#pop-id').html(data.id);
-						$('#pop-name').html(data.name);
-						$('#pop-address').html(data.address);
+						$('#pop-name').html(data.namaDepartemen);
+						$('#pop-address').html(data.alamat);
 						$('#pop-email').html(data.email);
 						$("#popdetail").modal("show");
 					}
@@ -252,20 +252,20 @@
 		}); // end fungsi detail
 		
 		$('.modalcancel').on('click', function(){
-			$('#judul-modal').html('Tambahkan Data Employee');
+			$('#judul-modal').html('Tambahkan Data Departemen');
 		});
 		
 		function clearForm() {
 			$('#id').val('');
-			$('#name').val('');
-			$('#address').val('');
+			$('#namaDepartemen').val('');
+			$('#alamat').val('');
 			$('#email').val('');
 		}
 	});
 </script>
 <script>
   $(function() {
-    $('#data-emp').DataTable({
+    $('#data-dep').DataTable({
       'paging'      : true,
       'lengthChange': false,
       'searching'   : true,
