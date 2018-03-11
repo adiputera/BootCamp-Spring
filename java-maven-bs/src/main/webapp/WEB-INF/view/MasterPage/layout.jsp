@@ -64,15 +64,6 @@
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Navbar Right Menu -->
           <div class="navbar-custom-menu">
-          <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
             <ul class="nav navbar-nav">
               <!-- Messages: style can be found in dropdown.less-->
               <li class="dropdown messages-menu">
@@ -200,3 +191,6 @@
           </div>
         </nav>
       </header>
+      <a href="${pageContext.request.contextPath}/emp" class="btn btn-info btn-lg">Employee</a>
+      <a href="${pageContext.request.contextPath}/mhs" class="btn btn-info btn-lg">Mahasiswa</a>
+      <a href="${pageContext.request.contextPath}/dep" class="btn btn-info btn-lg">Departemen</a><br/>

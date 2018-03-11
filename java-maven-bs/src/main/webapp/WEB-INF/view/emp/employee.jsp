@@ -1,4 +1,5 @@
 <%@ include file="/WEB-INF/view/MasterPage/layout.jsp"%>
+	<h2>Data Employee</h2>
 	<button type="button" class="tbladd btn btn-info btn-lg">Tambah Employee</button>
 	<table  id="data-emp" class="table table-bordered table-hover">
 		<thead>
