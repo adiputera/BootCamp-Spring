@@ -1,4 +1,5 @@
 <%@ include file="/WEB-INF/view/MasterPage/layout.jsp"%>
+<section class="content">
 	<h2>Data Departemen</h2>
 	<button type="button" class="tbladd btn btn-info btn-lg">Tambah Departemen</button>
 	<table  id="data-dep" class="table table-bordered table-hover">
@@ -121,6 +122,7 @@
 			</div>
 		</div>
 	</div>
+	</section>
 </body>
 
 <script>
