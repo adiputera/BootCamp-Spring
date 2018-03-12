@@ -83,6 +83,7 @@
 				</div>
 				<div class="modal-body">
 					<p>Apakah Anda Yakin Ingin Menghapus Data Ini?</p>
+					<input type="hidden" id="hapus-id">
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-info" data-dismiss="modal" id="batal-insert">Batal</button>
@@ -130,11 +131,11 @@
 		
 		$('.delete').on('click', function(){
 			var id = $(this).attr('key-id');
-			$('#tblkonfdel').attr('key', id)
+			$('#hapus-id').val(id)
 		});
 		
 		$('#tblkonfdel').on('click', function(){
-			var id = $(this).attr('key');
+			var id = $('#hapus-id').val();
 			console.log('klik tombol hapus')
 			$.ajax({
 				url: '${pageContext.request.contextPath}/dep/delete/'+id,
