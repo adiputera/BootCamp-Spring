@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/view/MasterPage/layout.jsp"%>
 <h2><a href="${pageContext.request.contextPath}/emp">Data Tabel Employee</a></h2>
 <section class="content">
-<table  id="data-emp" class="table table-bordered table-hover">
+<table  id="data-emp" class="table table-striped table-bordered table-hover">
 		<thead>
 			<th>ID</th>
 			<th>Name</th>
@@ -23,7 +23,7 @@
 	</table>
 	
 	<h2><a href="${pageContext.request.contextPath}/mhs">Data Tabel Mahasiswa</a></h2>
-	<table  id="data-mhs" class="table table-bordered table-hover">
+	<table  id="data-mhs" class="table table-striped table-bordered table-hover">
 		<thead>
 			<th>ID</th>
 			<th>Nama</th>
@@ -45,7 +45,7 @@
 	</table>
 	
 	<h2><a href="${pageContext.request.contextPath}/dep">Data Tabel Departemen</a></h2>
-	<table  id="data-dep" class="table table-bordered table-hover">
+	<table  id="data-dep" class="table table-striped table-bordered table-hover">
 		<thead>
 			<th>ID</th>
 			<th>Nama Departemen</th>
@@ -65,7 +65,7 @@
 			</c:forEach>
 		</tbody>
 	</table> 
-	</section>
+</section>
 	<script>
   $(function() {
     $('#data-emp').DataTable({

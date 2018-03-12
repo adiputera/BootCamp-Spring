@@ -2,7 +2,7 @@
 <section class="content">	
 	<h2>Data Mahasiswa</h2>
 	<button type="button" class="tbladd btn btn-info btn-lg">Tambah Mahasiswa</button>
-	<table  id="data-mhs" class="table table-bordered table-hover">
+	<table  id="data-mhs" class="table table-striped table-bordered table-hover">
 		<thead>
 			<th>ID</th>
 			<th>Nama</th>
@@ -40,22 +40,22 @@
 					<h4 id="judul-modal">Tambahkan Mahasiswa</h4>
 				</div>
 				<div class="modal-body">
-					<form method="post">
+					<form data-parsley-validate method="post">
 						<table>
 							<tr>
 								<td>Nama</td>
 								<td>:</td>
-								<td><input type="text" name="nama" id="nama" /></td>
+								<td><input type="text" name="nama" id="nama" data-parsley-minlength="1"/></td>
 							</tr>
 							<tr>
 								<td>Alamat</td>
 								<td>:</td>
-								<td><input type="text" name="alamat" id="alamat"/></td>
+								<td><input type="text" name="alamat" id="alamat" data-parsley-minlength="1"/></td>
 							</tr>
 							<tr>
 								<td>Universitas</td>
 								<td>:</td>
-								<td><input type="email" name="univ" id="univ" /></td>
+								<td><input type="email" name="univ" id="univ" data-parsley-minlength="1"/></td>
 							</tr>
 							<tr>
 								<td colspan="2"><button type="button" class="btn btn-primary" id="tblsimpan">Simpan</button></td>
