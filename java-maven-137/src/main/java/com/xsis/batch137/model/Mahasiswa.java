@@ -7,6 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="MAHASISWA_XE")
@@ -16,6 +20,9 @@ public class Mahasiswa {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private int id;
 	@Column(nullable=false)
+	@NotNull
+	@NotEmpty
+	@Size(min=4, max = 30, message="Harus 4-30 karakter")
 	private String name;
 	
 	//relation jurusan

@@ -32,4 +32,8 @@ public class MahasiswaService {
 		// TODO Auto-generated method stub
 		return mhsDao.selectAll();
 	}
+	
+	public void update(Mahasiswa mhs) {
+		mhsDao.update(mhs);
+	}
 }

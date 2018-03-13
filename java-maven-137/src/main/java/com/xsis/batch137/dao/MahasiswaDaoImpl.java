@@ -41,7 +41,9 @@ public class MahasiswaDaoImpl implements MahasiswaDao{
 
 	public void update(Mahasiswa mhs) {
 		// TODO Auto-generated method stub
-		
+		Session session = sessionFactory.getCurrentSession();
+		session.update(mhs);
+		session.flush();
 	}
 
 	public void saveAtauUpdate(Mahasiswa mhs) {

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,134 +20,88 @@
 	src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 	
 <script>
-	jQuery(document)
-			.ready(
-					function() {
-						$('.delete')
-								.on(
-										'click',
-										function() {
-											var id = $(this).attr('id');
-											var conf = confirm("yakin nih?");
-											if (conf == true) {
-												window.location = "${pageContext.request.contextPath}/employee/delete/"
-														+ id;
-											}
-											return false;
-										}); //end fungsi delete
-
-						//on click submit via ajax
-						$('#save')
-								.on(
-										'click',
-										function(evt) {
-											evt.preventDefault();
-											var name = $('#name').val();
-											var address = $('#address').val();
-											var email = $('#email').val();
-											var employee = {
-												'name' : name,
-												'address' : address,
-												'email' : email
-											};
-											$
-													.ajax({
-														type : 'post',
-														url : '${pageContext.request.contextPath}/ajax-emp/save',
-														data : JSON
-																.stringify(employee),
-														contentType : 'application/json',
-														success : function() {
-															alert('save '
-																	+ name
-																	+ ' berhasil');
-														},
-														error : function() {
-															alert('save failed');
-														}
-													});
-										}); // end fungsi save
-
-						// data tables
-						$('#data-emp').DataTable();
-						
-						$('.update').on('click', function(evt){
-							evt.preventDefault();
-							var id = $(this).attr('id');
-							
-							$.ajax({
-								url : '${pageContext.request.contextPath}/ajax-emp/get-one/'+id,
-								type : 'GET',
-								success : function(emp){
-									$('#in-name').val(emp.name);
-									$('#in-address').val(emp.address);
-									$('#in-email').val(emp.email);
-									$('#in-id').val(emp.id);
-									console.log(emp);
-									$('#form-emp').modal();
-									
-								},
-								error : function(){
-									alert('failed getting data');
-								},
-								dataType: 'json'
-							});
-						}); // end fungsi ambil data ke form
-						
-						$('#btn-update').on('click', function(){
-							var employee = {
-									id : $('#in-id').val(),
-									name : $('#in-name').val(),
-									address : $('#in-address').val(),
-									email : $('#in-email').val(),
-							}
-							console.log(employee);
-							$.ajax({
-								url : '${pageContext.request.contextPath}/ajax-emp/update',
-								type : 'put',
-								data : JSON.stringify(employee),
-								contentType : 'application/json',
-								success : function(data){
-									window.location='${pageContext.request.contextPath}/ajax-emp'
-								}, error : function(){
-									alert('gagal');
-								}
-							});
-						}); // end fungsi update
-						
-						$('.tbldelete').on('click', function(){
-							var id = $(this).attr('id');
-							$('#del-id').val(id); //del-id hidden input di modal konfirmasi delete
-							$('#modal-del').modal();
-						});
-						
-						$('#btn-hapus').on('click', function(){
-							var id = $('#del-id').val();
-							$.ajax({
-								url : '${pageContext.request.contextPath}/ajax-emp/delete/'+id,
-								type : 'delete',
-								success : function(data){
-									window.location='${pageContext.request.contextPath}/ajax-emp'
-								}, error : function(){
-									alert('gagal');
-								}
-							});
-						});
-					});
+	jQuery(document).ready(function() {
+		$('#data-emp').DataTable();
+		
+		$('.update').on('click', function(){
+			var id = $(this).attr('id');
+			$.ajax({
+				url : '${pageContext.request.contextPath}/mhs/get-one/'+id,
+				type : 'get',
+				success : function(mhs){
+					setEditMhs(mhs);
+					$('#form-mhs').modal();
+				}, error : function(){
+					alert('gagal');
+				},
+				dataType : 'json'
+			});
+		}); // end .update
+		
+		$('#tbladd').on('click', function(){
+			//var id = $(this).attr('id');
+			$('#form-mhs').modal();
+		}); // end .update
+		
+		function setEditMhs(mhs){
+			console.log(mhs);
+			$('#in-id').val(mhs.id);
+			$('#in-name').val(mhs.name);
+			$('#piljur').val(mhs.jurusan.id);
+		}
+		
+		$('#btn-update').click(function(){
+			var mhs = {
+					id : $('#in-id').val(),
+					name : $('#in-name').val(),
+					jurusan : {
+						id : $('#piljur').val()
+					}
+			}
+			console.log(mhs);
+			$.ajax({
+				url : '${pageContext.request.contextPath}/mhs/update',
+				type : 'put',
+				data : JSON.stringify(mhs),
+				contentType : 'application/json',
+				success : function(data){
+					window.location = '${pageContext.request.contextPath}/mhs';
+				}, error : function(){
+					alert('gagal');
+				}
+			});
+		});
+		
+	}); // end document ready
 </script>
 </head>
 <body>
-	<form action="#" method="post">
-		<input type="text" id="name" name="name"><br> <input
-			type="text" id="address" name="address"><br> <input
-			type="text" id="email" name="email"> <br> <input
-			type="submit" id="save" name="save" value="save">
-	</form>
+<div class="container">
+	<div id="save-form">
+		<form:form action="${pageContext.request.contextPath }/mhs/save" method="post" commandName="mahasiswa">
+			<form:errors path="*" cssClass="errorblock" element="div"/>
+			<div class="form-group">
+				<label>Nama </label>
+				<form:input type="text" path="name" class="form-control"/> <br/>
+			</div>
+			<div class="form-group">
+				<label>Jurusan </label>
+				<form:select path = "jurusan.id" class="form-control">
+					<c:forEach items="${jurs }" var="jur">
+						<option value="${jur.id }"> ${jur.namaJurusan } </option>
+					</c:forEach>
+				</form:select>
+			</div>
+			<form:button>Simpan</form:button>
+		</form:form>
+	</div>
+</div>
+	<button class="btn btn-info btn-lg" id="tbladd">Tambah Data</button>
 	<table id="data-emp" class="table table-striped table-bordered"
 		cellspacing="0" width="100%">
 		<thead>
 			<th>Name</th>
-			<th>alamat</th>
+			<th>Jurusan</th>
 			<th>Action</th>
 		</thead>
 		<tbody>
@@ -162,7 +117,7 @@
 		</tbody>
 	</table>
 
-	<div id="form-emp" class="modal" tabindex="-1" role="dialog">
+	<div id="form-mhs" class="modal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -180,14 +135,12 @@
 								class="form-control" id="in-name" placeholder="Nama">
 						</div>
 						<div class="form-group">
-							<label for="exampleInputPassword1">Alamat</label> <input
-								type="text" class="form-control" id="in-address"
-								placeholder="Password">
-						</div>
-						<div class="form-group">
-							<label for="exampleInputEmail1">Email</label> <input
-								type="email" class="form-control" id="in-email"
-								aria-describedby="emailHelp" placeholder="Enter email">
+							<label for="exampleInputPassword1">Jurusan</label>
+							<select id="piljur" class="custom-select custom-select-md">
+								<c:forEach items="${jurs }" var="jur">
+									<option value="${jur.id }"> ${jur.namaJurusan } </option>
+								</c:forEach>
+							</select>
 						</div>
 					</form>
 				</div>
