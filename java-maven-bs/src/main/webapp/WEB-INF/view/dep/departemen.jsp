@@ -129,7 +129,7 @@
 <script>
 	$(document).ready(function(){
 		
-		$('.delete').on('click', function(){
+		$('#data-dep').on('click', '.delete',function(){
 			var id = $(this).attr('key-id');
 			$('#hapus-id').val(id)
 		});
@@ -216,7 +216,7 @@
 			});
 		}); // end fungsi simpan
 		
-		$('.tblupdate').on('click', function(){
+		$('#data-dep').on('click','.tblupdate', function(){
 			var id = $(this).attr('key-id');
 			console.log('klik edit');
 			$.ajax({
@@ -236,7 +236,7 @@
 			});
 		}); // end fungsi update
 		
-		$('.tbldetail').on('click', function(){
+		$('#data-dep').on('click', '.tbldetail',function(){
 			var id = $(this).attr('key-id');
 			console.log('klik detail');
 			$.ajax({

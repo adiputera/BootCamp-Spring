@@ -19,11 +19,9 @@
 					<td>${emp.name }</td>
 					<td>${emp.address }</td>
 					<td>${emp.email }</td>
-					<td><a href="#" key-id="${emp.id }"
-						class="tbldetail btn btn-success">Detail</a> | <a href="#"
-						key-id="${emp.id }" class="tblupdate btn btn-info">Update</a> | <a
-						href="#konfirmdel" data-toggle="modal" key-id="${emp.id }"
-						class="delete btn btn-danger">Delete</a></td>
+					<td><a href="#" key-id="${emp.id }" class="tbldetail btn btn-success">Detail</a> | 
+						<a href="#" key-id="${emp.id }" class="tblupdate btn btn-info">Update</a> | 
+						<a href="#" key-id="${emp.id }" class="delete btn btn-danger">Delete</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -145,211 +143,189 @@
 </body>
 
 <script>
-	$(document)
-			.ready(
-					function() {
+	$(document).ready(function() {
 
-						$('.delete').on('click', function() {
-							var id = $(this).attr('key-id');
-							$('#tblkonfdel').attr('key', id)
-						});
+		$('#data-emp').on('click', '.delete',function() {
+			var id = $(this).attr('key-id');
+			$('#tblkonfdel').attr('key', id);
+			$('#konfirmdel').modal('show')
+		});
 
-						$('#tblkonfdel')
-								.on(
-										'click',
-										function() {
-											var id = $(this).attr('key');
-											console.log('klik tombol hapus')
-											$
-													.ajax({
-														url : '${pageContext.request.contextPath}/emp/delete/'
-																+ id,
-														type : 'DELETE',
-														success : function(
-																response) {
-															$('#konfirmdel')
-																	.modal(
-																			'hide');
-															reloadTable();
-															$('#konfirmdel')
-																	.load(
-																			'${pageContext.request.contextPath}/emp #konfirmdel')
-														},
-														error : function() {
+		$('#tblkonfdel').on('click', function() {
+							var id = $(this).attr('key');
+							console.log('klik tombol hapus')
+							$.ajax({
+								url : '${pageContext.request.contextPath}/emp/delete/'+ id,
+								type : 'DELETE',
+								success : function(response) {
+									$('#konfirmdel').modal('hide');
+									reloadTable();
+								},
+								error : function() {
+	
+								}
+							});
+						}); // end fungsi delete
 
-														}
-													});
-										}); // end fungsi delete
+		function reloadTable() {
+			$
+					.ajax({
+						url : '${pageContext.request.contextPath}/emp/get-all',
+						type : "GET",
+						dataType : "json",
+						success : function(data) {
+							$('#data-emp').DataTable()
+									.destroy();
+							$('#isi-emp').empty();
+							$.each(data,function(key, val) {
+								$('#isi-emp').append(
+												'<tr><td>'
+														+ val.id
+														+ '</td><td>'
+														+ val.name
+														+ '</td><td>'
+														+ val.address
+														+ '</td><td>'
+														+ val.email
+														+ '</td>'
+														+ '<td><a href="#" key-id="'+val.id+'" class="tbldetail btn btn-success">Detail</a>'
+														+ ' | '
+														+ '<a href="#" key-id="'+val.id+'" class="tblupdate btn btn-info">Update</a>'
+														+ ' | '
+														+ '<a href="#konfirmdel" data-toggle="modal" key-id="'+val.id+'" class="delete btn btn-danger">Delete</a>');
 
-						function reloadTable() {
+							});
+							$('#data-emp').DataTable({
+								'paging' : true,
+								'lengthChange' : false,
+								'searching' : true,
+								'ordering' : true,
+								'info' : true,
+								'autoWidth' : false
+							});
+						}
+					});
+		} // end fungsi reload table
+
+		$('.tbladd').on('click', function() {
+			$('#judul-modal').html('Tambah Data Employee');
+			$('#frminsert').modal('show');
+			clearForm();
+		});
+
+		$('#tblsimpan')
+				.on(
+						'click',
+						function(evt) {
+							console.log('click tombol simpan');
+							evt.preventDefault();
+							var id = $('#id').val();
+							var name = $('#name').val();
+							var address = $('#address').val();
+							var email = $('#email').val();
+							var employee = {
+								'id' : id,
+								'name' : name,
+								'address' : address,
+								'email' : email
+							};
 							$
 									.ajax({
-										url : '${pageContext.request.contextPath}/emp/get-all',
+										type : 'post',
+										url : '${pageContext.request.contextPath}/emp/save',
+										data : JSON
+												.stringify(employee),
+										contentType : 'application/json',
+										success : function() {
+											$("#frminsert")
+													.modal(
+															"hide");
+											console
+													.log('simpan');
+											reloadTable();
+											clearForm();
+											//alert('save '+ name + ' berhasil');
+										},
+										error : function() {
+											alert('save failed');
+										}
+									});
+						}); // end fungsi simpan
+
+		$('#data-emp').on('click', '.tblupdate',function() {
+							var id = $(this).attr('key-id');
+							console.log('klik edit');
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/emp/get-one/'
+												+ id,
 										type : "GET",
 										dataType : "json",
 										success : function(data) {
-											$('#data-emp').DataTable()
-													.destroy();
-											$('#isi-emp').empty();
-											$
-													.each(
-															data,
-															function(key, val) {
-																$('#isi-emp')
-																		.append(
-																				'<tr><td>'
-																						+ val.id
-																						+ '</td><td>'
-																						+ val.name
-																						+ '</td><td>'
-																						+ val.address
-																						+ '</td><td>'
-																						+ val.email
-																						+ '</td>'
-																						+ '<td><a href="#" key-id="'+val.id+'" class="tbldetail btn btn-success">Detail</a>'
-																						+ ' | '
-																						+ '<a href="#" key-id="'+val.id+'" class="tblupdate btn btn-info">Update</a>'
-																						+ ' | '
-																						+ '<a href="#konfirmdel" data-toggle="modal" key-id="'+val.id+'" class="delete btn btn-danger">Delete</a>');
-
-															});
-											$('#data-emp').DataTable({
-												'paging' : true,
-												'lengthChange' : false,
-												'searching' : true,
-												'ordering' : true,
-												'info' : true,
-												'autoWidth' : false
-											});
+											clearForm();
+											console
+													.log('sukses ambil data');
+											$('#judul-modal')
+													.html(
+															'Update Data Employee');
+											$('#id').val(
+													data.id);
+											$('#name').val(
+													data.name);
+											$('#address')
+													.val(
+															data.address);
+											$('#email').val(
+													data.email);
+											$("#frminsert")
+													.modal(
+															"show");
 										}
 									});
-						} // end fungsi reload table
+						}); // end fungsi update
 
-						$('.tbladd').on('click', function() {
-							$('#judul-modal').html('Tambah Data Employee');
-							$('#frminsert').modal('show');
-							clearForm();
-						});
+		$('#data-emp').on('click', '.tbldetail',function() {
+							var id = $(this).attr('key-id');
+							console.log('klik detail');
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/emp/get-one/'
+												+ id,
+										type : "GET",
+										dataType : "json",
+										success : function(data) {
+											clearForm();
+											console
+													.log('sukses ambil data');
+											$('#pop-id').html(
+													data.id);
+											$('#pop-name')
+													.html(
+															data.name);
+											$('#pop-address')
+													.html(
+															data.address);
+											$('#pop-email')
+													.html(
+															data.email);
+											$("#popdetail")
+													.modal(
+															"show");
+										}
+									});
+						}); // end fungsi detail
 
-						$('#tblsimpan')
-								.on(
-										'click',
-										function(evt) {
-											console.log('click tombol simpan');
-											evt.preventDefault();
-											var id = $('#id').val();
-											var name = $('#name').val();
-											var address = $('#address').val();
-											var email = $('#email').val();
-											var employee = {
-												'id' : id,
-												'name' : name,
-												'address' : address,
-												'email' : email
-											};
-											$
-													.ajax({
-														type : 'post',
-														url : '${pageContext.request.contextPath}/emp/save',
-														data : JSON
-																.stringify(employee),
-														contentType : 'application/json',
-														success : function() {
-															$("#frminsert")
-																	.modal(
-																			"hide");
-															console
-																	.log('simpan');
-															reloadTable();
-															clearForm();
-															//alert('save '+ name + ' berhasil');
-														},
-														error : function() {
-															alert('save failed');
-														}
-													});
-										}); // end fungsi simpan
+		$('.modalcancel').on('click', function() {
+			$('#judul-modal').html('Tambahkan Data Employee');
+		});
 
-						$('.tblupdate')
-								.on(
-										'click',
-										function() {
-											var id = $(this).attr('key-id');
-											console.log('klik edit');
-											$
-													.ajax({
-														url : '${pageContext.request.contextPath}/emp/get-one/'
-																+ id,
-														type : "GET",
-														dataType : "json",
-														success : function(data) {
-															clearForm();
-															console
-																	.log('sukses ambil data');
-															$('#judul-modal')
-																	.html(
-																			'Update Data Employee');
-															$('#id').val(
-																	data.id);
-															$('#name').val(
-																	data.name);
-															$('#address')
-																	.val(
-																			data.address);
-															$('#email').val(
-																	data.email);
-															$("#frminsert")
-																	.modal(
-																			"show");
-														}
-													});
-										}); // end fungsi update
-
-						$('.tbldetail')
-								.on(
-										'click',
-										function() {
-											var id = $(this).attr('key-id');
-											console.log('klik detail');
-											$
-													.ajax({
-														url : '${pageContext.request.contextPath}/emp/get-one/'
-																+ id,
-														type : "GET",
-														dataType : "json",
-														success : function(data) {
-															clearForm();
-															console
-																	.log('sukses ambil data');
-															$('#pop-id').html(
-																	data.id);
-															$('#pop-name')
-																	.html(
-																			data.name);
-															$('#pop-address')
-																	.html(
-																			data.address);
-															$('#pop-email')
-																	.html(
-																			data.email);
-															$("#popdetail")
-																	.modal(
-																			"show");
-														}
-													});
-										}); // end fungsi detail
-
-						$('.modalcancel').on('click', function() {
-							$('#judul-modal').html('Tambahkan Data Employee');
-						});
-
-						function clearForm() {
-							$('#id').val('');
-							$('#name').val('');
-							$('#address').val('');
-							$('#email').val('');
-						}
-					});
+		function clearForm() {
+			$('#id').val('');
+			$('#name').val('');
+			$('#address').val('');
+			$('#email').val('');
+		}
+	});
 </script>
 <script>
 	$(function() {

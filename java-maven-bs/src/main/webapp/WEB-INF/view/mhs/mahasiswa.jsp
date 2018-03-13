@@ -128,9 +128,10 @@
 <script>
 	$(document).ready(function(){
 		
-		$('.delete').on('click', function(){
+		$('#data-mhs').on('click', '.delete',function(){
 			var id = $(this).attr('key-id');
-			$('#tblkonfdel').attr('key', id)
+			$('#tblkonfdel').attr('key', id);
+			
 		});
 		
 		$('#tblkonfdel').on('click', function(){
@@ -215,7 +216,7 @@
 			});
 		}); // end fungsi simpan
 		
-		$('.tblupdate').on('click', function(){
+		$('#data-mhs').on('click', '.tblupdate',function(){
 			var id = $(this).attr('key-id');
 			console.log('klik edit');
 			$.ajax({
@@ -235,7 +236,7 @@
 			});
 		}); // end fungsi update
 		
-		$('.tbldetail').on('click', function(){
+		$('#data-mhs').on('click', '.tbldetail',function(){
 			var id = $(this).attr('key-id');
 			console.log('klik detail');
 			$.ajax({
