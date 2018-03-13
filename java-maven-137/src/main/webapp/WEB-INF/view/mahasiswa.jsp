@@ -82,7 +82,7 @@
 			<form:errors path="*" cssClass="errorblock" element="div"/>
 			<div class="form-group">
 				<label>Nama </label>
-				<form:input type="text" path="name" class="form-control"/> <br/>
+				<form:input type="text" path="name" class="form-control"/>
 			</div>
 			<div class="form-group">
 				<label>Jurusan </label>
@@ -92,11 +92,11 @@
 					</c:forEach>
 				</form:select>
 			</div>
-			<form:button>Simpan</form:button>
+			<form:button class="btn btn-info">Simpan</form:button>
 		</form:form>
 	</div>
 </div>
-	<button class="btn btn-info btn-lg" id="tbladd">Tambah Data</button>
+	<button class="btn btn-info" id="tbladd">Tambah Data</button>
 	<table id="data-emp" class="table table-striped table-bordered"
 		cellspacing="0" width="100%">
 		<thead>
