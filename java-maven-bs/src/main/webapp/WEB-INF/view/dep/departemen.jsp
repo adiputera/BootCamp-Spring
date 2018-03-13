@@ -45,17 +45,17 @@
 							<tr>
 								<td>Nama Departemen</td>
 								<td>:</td>
-								<td><input type="text" name="namaDepartemen" id="namaDepartemen" data-parsley-required="true" data-parsley-minlength="1"/></td>
+								<td><input type="text" name="namaDepartemen" id="namaDepartemen" data-parsley-required="true" /></td>
 							</tr>
 							<tr>
 								<td>Alamat</td>
 								<td>:</td>
-								<td><input type="text" name="alamat" id="alamat" data-parsley-required="true" data-parsley-minlength="1"/></td>
+								<td><input type="text" name="alamat" id="alamat" data-parsley-required="true" /></td>
 							</tr>
 							<tr>
 								<td>Email</td>
 								<td>:</td>
-								<td><input type="email" name="email" id="email" data-parsley-required="true" data-parsley-minlength="1" data-parsley-type="email"/></td>
+								<td><input type="email" name="email" id="email" data-parsley-required="true" data-parsley-type="email"/></td>
 							</tr>
 							<tr>
 								<td colspan="2"><button type="button" class="btn btn-primary" id="tblsimpan">Simpan</button></td>
@@ -131,8 +131,8 @@
 		
 		$('#data-dep').on('click', '.delete',function(){
 			var id = $(this).attr('key-id');
-			$('#hapus-id').val(id);
-			$('#konfirmdel').modal('show')
+			$('#konfirmdel').modal('show');
+			$('#hapus-id').val(id)
 		});
 		
 		$('#tblkonfdel').on('click', function(){
@@ -203,7 +203,6 @@
 			validate = $('#formdepartemen').parsley();
 			validate.validate();
 			if(validate.isValid()){
-				//do next code..
 				$.ajax({
 					type : 'post',
 					url : '${pageContext.request.contextPath}/dep/save',

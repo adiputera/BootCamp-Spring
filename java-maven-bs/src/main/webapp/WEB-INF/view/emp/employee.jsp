@@ -40,25 +40,25 @@
 					<h4 id="judul-modal">Tambahkan Employee</h4>
 				</div>
 				<div class="modal-body">
-					<form data-parsley-validate method="post">
+					<form data-parsley-validate method="post" id="form-emp">
 						<table>
 							<tr>
 								<td>Nama</td>
 								<td>:</td>
 								<td><input type="text" name="name" id="name"
-									data-parsley-minlength="1" /></td>
+									data-parsley-required="true" /></td>
 							</tr>
 							<tr>
 								<td>Alamat</td>
 								<td>:</td>
 								<td><input type="text" name="address" id="address"
-									data-parsley-minlength="1" /></td>
+									data-parsley-required="true" /></td>
 							</tr>
 							<tr>
 								<td>Email</td>
 								<td>:</td>
 								<td><input type="email" name="email" id="email"
-									data-parsley-minlength="1" /></td>
+									data-parsley-required="true" data-parsley-type="email"/></td>
 							</tr>
 							<tr>
 								<td colspan="2"><button type="button"
@@ -192,7 +192,7 @@
 														+ ' | '
 														+ '<a href="#" key-id="'+val.id+'" class="tblupdate btn btn-info">Update</a>'
 														+ ' | '
-														+ '<a href="#konfirmdel" data-toggle="modal" key-id="'+val.id+'" class="delete btn btn-danger">Delete</a>');
+														+ '<a href="#" key-id="'+val.id+'" class="delete btn btn-danger">Delete</a>');
 
 							});
 							$('#data-emp').DataTable({
@@ -213,44 +213,44 @@
 			clearForm();
 		});
 
-		$('#tblsimpan')
-				.on(
-						'click',
-						function(evt) {
-							console.log('click tombol simpan');
-							evt.preventDefault();
-							var id = $('#id').val();
-							var name = $('#name').val();
-							var address = $('#address').val();
-							var email = $('#email').val();
-							var employee = {
-								'id' : id,
-								'name' : name,
-								'address' : address,
-								'email' : email
-							};
-							$
-									.ajax({
-										type : 'post',
-										url : '${pageContext.request.contextPath}/emp/save',
-										data : JSON
-												.stringify(employee),
-										contentType : 'application/json',
-										success : function() {
-											$("#frminsert")
-													.modal(
-															"hide");
-											console
-													.log('simpan');
-											reloadTable();
-											clearForm();
-											//alert('save '+ name + ' berhasil');
-										},
-										error : function() {
-											alert('save failed');
-										}
-									});
-						}); // end fungsi simpan
+		$('#tblsimpan').on('click',function(evt) {
+			console.log('click tombol simpan');
+			evt.preventDefault();
+			var id = $('#id').val();
+			var name = $('#name').val();
+			var address = $('#address').val();
+			var email = $('#email').val();
+			var employee = {
+				'id' : id,
+				'name' : name,
+				'address' : address,
+				'email' : email
+			};
+			validate = $('#form-emp').parsley();
+			validate.validate();
+			if(validate.isValid()){
+					$.ajax({
+						type : 'post',
+						url : '${pageContext.request.contextPath}/emp/save',
+						data : JSON
+								.stringify(employee),
+						contentType : 'application/json',
+						success : function() {
+							$("#frminsert")
+									.modal(
+											"hide");
+							console
+									.log('simpan');
+							reloadTable();
+							clearForm();
+							//alert('save '+ name + ' berhasil');
+						},
+						error : function() {
+							alert('save failed');
+						}
+					});
+			}
+		}); // end fungsi simpan
 
 		$('#data-emp').on('click', '.tblupdate',function() {
 							var id = $(this).attr('key-id');

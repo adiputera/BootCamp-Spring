@@ -40,22 +40,22 @@
 					<h4 id="judul-modal">Tambahkan Mahasiswa</h4>
 				</div>
 				<div class="modal-body">
-					<form data-parsley-validate method="post">
+					<form data-parsley-validate method="post" id="form-mhs">
 						<table>
 							<tr>
 								<td>Nama</td>
 								<td>:</td>
-								<td><input type="text" name="nama" id="nama" data-parsley-minlength="1"/></td>
+								<td><input type="text" name="nama" id="nama" data-parsley-required="true" /></td>
 							</tr>
 							<tr>
 								<td>Alamat</td>
 								<td>:</td>
-								<td><input type="text" name="alamat" id="alamat" data-parsley-minlength="1"/></td>
+								<td><input type="text" name="alamat" id="alamat" data-parsley-required="true" /></td>
 							</tr>
 							<tr>
 								<td>Universitas</td>
 								<td>:</td>
-								<td><input type="email" name="univ" id="univ" data-parsley-minlength="1"/></td>
+								<td><input type="email" name="univ" id="univ" data-parsley-required="true" /></td>
 							</tr>
 							<tr>
 								<td colspan="2"><button type="button" class="btn btn-primary" id="tblsimpan">Simpan</button></td>
@@ -131,7 +131,7 @@
 		$('#data-mhs').on('click', '.delete',function(){
 			var id = $(this).attr('key-id');
 			$('#tblkonfdel').attr('key', id);
-			
+			$('#konfirmdel').modal('show');
 		});
 		
 		$('#tblkonfdel').on('click', function(){
@@ -164,7 +164,7 @@
 										+' | ' 
 										+'<a href="#" key-id="'+val.nim+'" class="tblupdate btn btn-info">Update</a>'
 										+' | '
-										+'<a href="#konfirmdel" data-toggle="modal" key-id="'+val.nim+'" class="delete btn btn-danger">Delete</a>');
+										+'<a href="#" key-id="'+val.nim+'" class="delete btn btn-danger">Delete</a>');
 								
 						});
 						$('#data-mhs').DataTable({
@@ -199,21 +199,25 @@
 					'alamat' : alamat,
 					'univ' : univ
 			};
-			$.ajax({
-				type : 'post',
-				url : '${pageContext.request.contextPath}/mhs/save',
-				data : JSON.stringify(mahasiswa),
-				contentType : 'application/json',
-				success : function(){
-					$("#frminsert").modal("hide");
-					console.log('simpan');
-					reloadTable();
-					clearForm();
-					//alert('save '+ name + ' berhasil');
-				}, error : function(){
-					alert('save failed');
-				}
-			});
+			validate = $('#form-mhs').parsley();
+			validate.validate();
+			if(validate.isValid()){
+				$.ajax({
+					type : 'post',
+					url : '${pageContext.request.contextPath}/mhs/save',
+					data : JSON.stringify(mahasiswa),
+					contentType : 'application/json',
+					success : function(){
+						$("#frminsert").modal("hide");
+						console.log('simpan');
+						reloadTable();
+						clearForm();
+						//alert('save '+ name + ' berhasil');
+					}, error : function(){
+						alert('save failed');
+					}
+				});
+			}
 		}); // end fungsi simpan
 		
 		$('#data-mhs').on('click', '.tblupdate',function(){
