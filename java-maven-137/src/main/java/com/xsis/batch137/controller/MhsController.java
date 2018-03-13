@@ -71,4 +71,13 @@ public class MhsController {
 	public void update(@RequestBody Mahasiswa mhs) {
 		mhsService.update(mhs);
 	}
+	
+	@RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void delete(@PathVariable int id) {
+		Mahasiswa mhs = new Mahasiswa();
+		mhs.setId(id);
+		mhs.setName("name");
+		mhsService.delete(mhs);
+	}
 }

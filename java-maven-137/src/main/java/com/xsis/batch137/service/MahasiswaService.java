@@ -36,4 +36,9 @@ public class MahasiswaService {
 	public void update(Mahasiswa mhs) {
 		mhsDao.update(mhs);
 	}
+
+	public void delete(Mahasiswa mhs) {
+		// TODO Auto-generated method stub
+		mhsDao.delete(mhs);
+	}
 }

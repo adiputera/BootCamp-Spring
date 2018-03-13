@@ -19,21 +19,16 @@
 	src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 	
 <script>
-	jQuery(document)
-			.ready(
-					function() {
-						$('.delete')
-								.on(
-										'click',
-										function() {
-											var id = $(this).attr('id');
-											var conf = confirm("yakin nih?");
-											if (conf == true) {
-												window.location = "${pageContext.request.contextPath}/employee/delete/"
-														+ id;
-											}
-											return false;
-										}); //end fungsi delete
+	jQuery(document).ready(function(){
+						$('.delete').on('click',function() {
+							var id = $(this).attr('id');
+							var conf = confirm("yakin nih?");
+							if (conf == true) {
+								window.location = "${pageContext.request.contextPath}/employee/delete/"
+										+ id;
+							}
+							return false;
+						}); //end fungsi delete
 
 						//on click submit via ajax
 						$('#save')
