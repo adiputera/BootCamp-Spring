@@ -22,7 +22,7 @@
 						|
 						<a href="#" key-id="${dep.id }" class="tblupdate btn btn-info">Update</a>
 						|
-						<a href="#konfirmdel" data-toggle="modal" key-id="${dep.id }" class="delete btn btn-danger">Delete</a> 
+						<a href="#" key-id="${dep.id }" class="delete btn btn-danger">Delete</a> 
 					</td>
 				</tr>
 			</c:forEach>
@@ -40,22 +40,22 @@
 					<h4 id="judul-modal">Tambahkan Departemen</h4>
 				</div>
 				<div class="modal-body">
-					<form data-parsley-validate method="post">
+					<form id="formdepartemen" data-parsley-validate method="post">
 						<table>
 							<tr>
 								<td>Nama Departemen</td>
 								<td>:</td>
-								<td><input type="text" name="namaDepartemen" id="namaDepartemen" data-parsley-minlength="1"/></td>
+								<td><input type="text" name="namaDepartemen" id="namaDepartemen" data-parsley-required="true" data-parsley-minlength="1"/></td>
 							</tr>
 							<tr>
 								<td>Alamat</td>
 								<td>:</td>
-								<td><input type="text" name="alamat" id="alamat" data-parsley-minlength="1"/></td>
+								<td><input type="text" name="alamat" id="alamat" data-parsley-required="true" data-parsley-minlength="1"/></td>
 							</tr>
 							<tr>
 								<td>Email</td>
 								<td>:</td>
-								<td><input type="email" name="email" id="email" data-parsley-minlength="1"/></td>
+								<td><input type="email" name="email" id="email" data-parsley-required="true" data-parsley-minlength="1" data-parsley-type="email"/></td>
 							</tr>
 							<tr>
 								<td colspan="2"><button type="button" class="btn btn-primary" id="tblsimpan">Simpan</button></td>
@@ -131,7 +131,8 @@
 		
 		$('#data-dep').on('click', '.delete',function(){
 			var id = $(this).attr('key-id');
-			$('#hapus-id').val(id)
+			$('#hapus-id').val(id);
+			$('#konfirmdel').modal('show')
 		});
 		
 		$('#tblkonfdel').on('click', function(){
@@ -164,7 +165,7 @@
 										+' | ' 
 										+'<a href="#" key-id="'+val.id+'" class="tblupdate btn btn-info">Update</a>'
 										+' | '
-										+'<a href="#konfirmdel" data-toggle="modal" key-id="'+val.id+'" class="delete btn btn-danger">Delete</a>');
+										+'<a href="#" key-id="'+val.id+'" class="delete btn btn-danger">Delete</a>');
 								
 						});
 						$('#data-dep').DataTable({
@@ -199,21 +200,27 @@
 					'alamat' : address,
 					'email' : email
 			};
-			$.ajax({
-				type : 'post',
-				url : '${pageContext.request.contextPath}/dep/save',
-				data : JSON.stringify(departemen),
-				contentType : 'application/json',
-				success : function(){
-					$("#frminsert").modal("hide");
-					console.log('simpan');
-					reloadTable();
-					clearForm();
-					//alert('save '+ name + ' berhasil');
-				}, error : function(){
-					alert('save failed');
-				}
-			});
+			validate = $('#formdepartemen').parsley();
+			validate.validate();
+			if(validate.isValid()){
+				//do next code..
+				$.ajax({
+					type : 'post',
+					url : '${pageContext.request.contextPath}/dep/save',
+					data : JSON.stringify(departemen),
+					contentType : 'application/json',
+					success : function(){
+						$("#frminsert").modal("hide");
+						console.log('simpan');
+						reloadTable();
+						clearForm();
+						//alert('save '+ name + ' berhasil');
+					}, error : function(){
+						alert('save failed');
+					}
+				});
+			}
+			
 		}); // end fungsi simpan
 		
 		$('#data-dep').on('click','.tblupdate', function(){

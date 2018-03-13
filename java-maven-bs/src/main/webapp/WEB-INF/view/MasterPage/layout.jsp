@@ -44,7 +44,14 @@
 <!-- Google Font -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+<style type="text/css">
+	input.parsley-error
+		{
+  			color: #B94A48 !important;
+  			background-color: #F2DEDE !important;
+  			border: 1px solid #EED3D7 !important;
+		}
+</style>
 <script
 	src="${pageContext.request.contextPath}/resources/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -102,7 +109,7 @@
 									<!-- start message --> <a href="#">
 										<div class="pull-left">
 											<img
-												src="${pageContext.request.contextPath}/resources//dist/img/user2-160x160.jpg"
+												src="${pageContext.request.contextPath}/resources/dist/img/user2-160x160.jpg"
 												class="img-circle" alt="User Image">
 										</div>
 										<h4>
@@ -116,7 +123,7 @@
 								<li><a href="#">
 										<div class="pull-left">
 											<img
-												src="${pageContext.request.contextPath}/resources//dist/img/user3-128x128.jpg"
+												src="${pageContext.request.contextPath}/resources/dist/img/user3-128x128.jpg"
 												class="img-circle" alt="User Image">
 										</div>
 										<h4>
@@ -128,7 +135,7 @@
 								<li><a href="#">
 										<div class="pull-left">
 											<img
-												src="${pageContext.request.contextPath}/resources//dist/img/user4-128x128.jpg"
+												src="${pageContext.request.contextPath}/resources/dist/img/user4-128x128.jpg"
 												class="img-circle" alt="User Image">
 										</div>
 										<h4>
@@ -139,7 +146,7 @@
 								<li><a href="#">
 										<div class="pull-left">
 											<img
-												src="${pageContext.request.contextPath}/resources//dist/img/user3-128x128.jpg"
+												src="${pageContext.request.contextPath}/resources/dist/img/user3-128x128.jpg"
 												class="img-circle" alt="User Image">
 										</div>
 										<h4>
@@ -151,7 +158,7 @@
 								<li><a href="#">
 										<div class="pull-left">
 											<img
-												src="${pageContext.request.contextPath}/resources//dist/img/user4-128x128.jpg"
+												src="${pageContext.request.contextPath}/resources/dist/img/user4-128x128.jpg"
 												class="img-circle" alt="User Image">
 										</div>
 										<h4>
