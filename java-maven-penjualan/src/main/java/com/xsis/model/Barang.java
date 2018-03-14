@@ -27,6 +27,9 @@ public class Barang {
 	@OneToMany(mappedBy="barang")
 	List<DetailPenjualan> dps;
 	
+	@OneToMany(mappedBy="barang")
+	List<Pesanan> pesans;
+	
 	public int getId() {
 		return id;
 	}
@@ -56,6 +59,12 @@ public class Barang {
 	}
 	public void setDps(List<DetailPenjualan> dps) {
 		this.dps = dps;
+	}
+	public List<Pesanan> getPesans() {
+		return pesans;
+	}
+	public void setPesans(List<Pesanan> pesans) {
+		this.pesans = pesans;
 	}
 	
 	

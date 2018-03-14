@@ -48,5 +48,5 @@
 			<value>classpath:application.properties</value>
 		</property>
 	</bean>
-	
+	<import resource="spring-security.xml"/>
 </beans>

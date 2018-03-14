@@ -23,6 +23,9 @@ public class Customer {
 	@OneToMany(mappedBy="customer")
 	List<Penjualan> juals;
 	
+	@OneToMany(mappedBy="customer")
+	List<Pesanan> pesans;
+	
 	public int getId() {
 		return id;
 	}
@@ -52,6 +55,12 @@ public class Customer {
 	}
 	public void setJuals(List<Penjualan> juals) {
 		this.juals = juals;
+	}
+	public List<Pesanan> getPesans() {
+		return pesans;
+	}
+	public void setPesans(List<Pesanan> pesans) {
+		this.pesans = pesans;
 	}
 	
 	
