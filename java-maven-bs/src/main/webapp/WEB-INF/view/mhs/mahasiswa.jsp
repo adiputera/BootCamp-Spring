@@ -55,7 +55,7 @@
 							<tr>
 								<td>Universitas</td>
 								<td>:</td>
-								<td><input type="email" name="univ" id="univ" data-parsley-required="true" /></td>
+								<td><input type="text" name="univ" id="univ" data-parsley-required="true" /></td>
 							</tr>
 							<tr>
 								<td colspan="2"><button type="button" class="btn btn-primary" id="tblsimpan">Simpan</button></td>
