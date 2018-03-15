@@ -120,6 +120,7 @@ $(document).ready(function(){
 			<th>Nama Barang</th>
 			<th>Harga</th>
 			<th>Stock</th>
+			
 			<th>Action</th>
 		</thead>
 		<tbody>
