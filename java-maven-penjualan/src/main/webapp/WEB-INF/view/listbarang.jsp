@@ -28,9 +28,41 @@
 <script src="${pageContext.request.contextPath}/resources/js/parsley.js"></script>
 <script>
 $(document).ready(function(){
-	
 	$('#data-brg').DataTable();
+	
 });
+</script>
+<script>
+	function isiTable(){
+		alert();
+		$.ajax({
+			url: '${pageContext.request.contextPath}/barang/get-all',
+			type: "GET",
+			dataType: "json",
+			success:function(data) {
+					$('#data-brg').DataTable().destroy();
+					$('#list-barang').empty();
+					$.each(data, function(key, val) {
+							$('#list-barang').append('<tr><td>'+ val.namaBarang +'</td><td>'+ val.harga +'</td><td>'
+									+ '<select id="jmlstok">'+
+									for(int i = 1; i<=val.stock; i++){
+										'<option value="'+i+'">'+i+'</select>'
+									}
+									+'</select>' 
+									+'<td><a href="#" key-id="'+val.id+'" class="tbldetail btn btn-success">Pilih</a>' 
+							
+					});
+					$('#data-brg').DataTable({
+					      'paging'      : true,
+					      'lengthChange': false,
+					      'searching'   : true,
+					      'ordering'    : true,
+					      'info'        : true,
+					      'autoWidth'   : false
+					    });
+			}
+		});
+	}
 </script>
 <title>Insert title here</title>
 </head>
@@ -38,9 +70,13 @@ $(document).ready(function(){
 <div class="container">
 	<br/>
 	<h2>Data Barang</h2>
-	<button class="btn btn-info" id="tbladd">Tambah Data</button>
+	<select id="piluser">
+		<c:forEach items="${cust }" var="cs">
+			<option value="cs.id">${cs.name }</option>
+		</c:forEach>
+	</select>
 	<table id="data-brg" class="table table-striped table-bordered"
-		cellspacing="0" width="100%">
+		cellspacing="0" width="100%" onload="isiTable()">
 		<thead>
 			<th>ID</th>
 			<th>Nama Barang</th>
@@ -48,25 +84,8 @@ $(document).ready(function(){
 			<th>Jumlah</th>
 			<th>Action</th>
 		</thead>
-		<tbody>
-			<c:forEach items="${brgs }" var="brg">
-				<tr>
-					<td>${brg.id }</td>
-					<td>${brg.namaBarang }</td>
-					<td>Rp. ${brg.harga }</td>
-					<td>
-					<select id="jmlbarang">
-					<%
-						
-						for(int i=0; i<10; i++){
-							out.print("<option>"+i+"</option>");
-						}
-					%>
-					</select>
-					</td>
-					<td><a href="#" id="${brg.id }" class="tbldelete btn btn-warning">Pilih</a></td>
-				</tr>
-			</c:forEach>
+		<tbody id="list-barang" >
+			
 		</tbody>
 	</table>
 

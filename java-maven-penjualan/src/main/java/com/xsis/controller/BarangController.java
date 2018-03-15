@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.xsis.model.Barang;
+import com.xsis.model.Customer;
 import com.xsis.service.BarangService;
+import com.xsis.service.CustomerService;
 
 @Controller
 @RequestMapping("/barang")
@@ -24,6 +26,9 @@ public class BarangController {
 	@Autowired
 	BarangService bs;
 	
+	@Autowired
+	CustomerService cs;
+	
 	@RequestMapping
 	public String index(Model model) {
 		List<Barang> brg = bs.selectAll();
@@ -31,10 +36,18 @@ public class BarangController {
 		return "barang";
 	}
 	
+	@RequestMapping(value="/get-all", method=RequestMethod.GET)
+	@ResponseBody
+	public List<Barang> getAll(){
+		return bs.selectAll();
+	}
+	
 	@RequestMapping("/listbarang")
 	public String listBarang(Model model) {
 		List<Barang> brg = bs.selectAll();
+		List<Customer> cust = cs.selectAll();
 		model.addAttribute("brgs", brg);
+		model.addAttribute("cust", cust);
 		return "listbarang";
 	}
 	

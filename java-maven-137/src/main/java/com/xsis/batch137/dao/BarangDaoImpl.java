@@ -1,4 +1,4 @@
-package com.xsis.dao;
+package com.xsis.batch137.dao;
 
 import java.util.List;
 
@@ -7,54 +7,50 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.xsis.model.DetailPenjualan;
-import com.xsis.model.Customer;
-import com.xsis.model.DetailPenjualan;
+import com.xsis.batch137.model.Barang;
 
 @Repository
-public class DetailPenjualanDaoImpl implements DetailPenjualanDao {
-
-	@Autowired
-	private SessionFactory sessionFactory;
+public class BarangDaoImpl implements BarangDao {
 	
-	public void save(DetailPenjualan dp) {
+	@Autowired
+	SessionFactory sessionFactory;
+
+	public void save(Barang brg) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		session.save(dp);
+		session.save(brg);
 		session.flush();
 	}
 
-	public List<DetailPenjualan> selectAll() {
+	public List<Barang> selectAll() {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		return session.createCriteria(DetailPenjualan.class).list();
+		return session.createCriteria(Barang.class).list();
 	}
 
-	public DetailPenjualan getOne(DetailPenjualan dp) {
+	public Barang getOne(Barang brg) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		return session.get(DetailPenjualan.class, dp.getId());
+		return session.get(Barang.class, brg.getId());
 	}
 
-	public void delete(DetailPenjualan dp) {
+	public void delete(Barang brg) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		session.delete(dp);
-		session.flush();
+		session.delete(brg);
 	}
 
-	public void update(DetailPenjualan dp) {
+	public void update(Barang brg) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		session.update(dp);
-		session.flush();
+		session.update(brg);
 	}
 
-	public void saveAtauUpdate(DetailPenjualan dp) {
+	public void saveAtauUpdate(Barang brg) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(dp);
-		session.flush();
+		session.saveOrUpdate(brg);
 	}
+	
 	
 }
