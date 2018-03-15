@@ -35,11 +35,40 @@ $(document).ready(function(){
 	      'ordering'    : true,
 	      'info'        : true,
 	      'autoWidth'   : false
-	    })
+	 });
 	    
 	 $('#btn-search').on('click', function(){
 		 var word = $('#search').val();
-		 windows.location="${pageContext.request.contextPath}/menu/src?search="+word;
+		 window.location="${pageContext.request.contextPath}/menu/src?search="+word;
+	 });
+	 
+	 $('.btn-beli').on('click', function(){
+		 var idCus = $('#piluser').val();
+		 var idBrg = $(this).attr('id');
+		 var elements = $(this).parent().parent();
+		 var select = elements.find('td').eq(2).find('select').val();
+		 console.log(select);
+		 var penjualan = {
+				 customer : {
+					 id : idCus
+				 },
+				 barang : {
+					 id : idBrg
+				 },
+				 jumlahBeli : select
+		 }
+		 $.ajax({
+			url : '${pageContext.request.contextPath}/menu/order',
+			type : 'post',
+			data : JSON.stringify(penjualan),
+			contentType : 'application/json',
+			success : function(data){
+				alert('berhasil ditambah')
+			}, error : function(){
+				alert('gagal')
+			}
+		 });
+		 console.log(penjualan);
 	 });
 });
 </script>
@@ -48,6 +77,16 @@ $(document).ready(function(){
 <body>
 <div class="container">
 	<br/>
+	<p>
+		<div>
+		Pilih Customer :
+			<select id="piluser">
+				<c:forEach items="${custs }" var="cus">
+					<option value="${cus.id }">${cus.email }</option>
+				</c:forEach>
+			</select>
+		</div>
+	</p>
 	<div id="search-box">
 		<span>search</span>
 		<span><input type="text" id="search"></span>
@@ -74,7 +113,7 @@ $(document).ready(function(){
 								</c:forEach>
 							</select>
 						</td>
-						<td><a href="#" class="btn btn-info">Pilih</a></td>
+						<td><a href="#" id="${brg.id }" class="btn-beli btn btn-info">Pilih</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

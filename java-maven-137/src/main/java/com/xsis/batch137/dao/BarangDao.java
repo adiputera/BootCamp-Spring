@@ -16,4 +16,5 @@ public interface BarangDao {
 	public void update(Barang brg);
 	//save or update
 	public void saveAtauUpdate(Barang brg);
+	public List<Barang> getBarangBySearchName(String search);
 }

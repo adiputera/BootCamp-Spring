@@ -33,6 +33,7 @@ public class Order {
 	@Column(name="status_barang")
 	
 	private int statusBarang;
+	private int jumlahBeli;
 	
 	public Date getCreateDate() {
 		return createDate;
@@ -63,5 +64,11 @@ public class Order {
 	}
 	public void setStatusBarang(int statusBarang) {
 		this.statusBarang = statusBarang;
+	}
+	public int getJumlahBeli() {
+		return jumlahBeli;
+	}
+	public void setJumlahBeli(int jumlahBeli) {
+		this.jumlahBeli = jumlahBeli;
 	}
 }

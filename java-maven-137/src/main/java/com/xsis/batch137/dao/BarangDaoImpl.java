@@ -51,6 +51,17 @@ public class BarangDaoImpl implements BarangDao {
 		Session session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(brg);
 	}
+
+	public List<Barang> getBarangBySearchName(String search) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "from Barang br where lower(br.namaBarang) like :nb";
+		List<Barang> barangs = session.createQuery(hql).setParameter("nb", "%"+search.toLowerCase()+"%").list();
+		if(barangs.isEmpty()) {
+			return null;
+		}
+		return barangs;
+	}
 	
 	
 }

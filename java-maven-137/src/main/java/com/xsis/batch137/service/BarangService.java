@@ -39,4 +39,9 @@ public class BarangService {
 		barang.setNamaBarang("s");
 		return bDao.getOne(barang);
 	}
+
+	public List<Barang> getBarangBySearchName(String search) {
+		// TODO Auto-generated method stub
+		return bDao.getBarangBySearchName(search);
+	}
 }
