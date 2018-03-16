@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xsis.batch137.dao.DetailPenjualanDao;
+import com.xsis.batch137.dao.OrderDao;
 import com.xsis.batch137.dao.PenjualanDao;
 import com.xsis.batch137.model.Barang;
 import com.xsis.batch137.model.DetailPenjualan;
@@ -18,6 +19,8 @@ public class PenjualanService {
 	PenjualanDao pDao;
 	@Autowired
 	DetailPenjualanDao dDao;
+	@Autowired
+	OrderDao oDao;
 	
 	public void save(Penjualan penjualan) {
 		Penjualan pen = new Penjualan();
@@ -35,5 +38,7 @@ public class PenjualanService {
 			det.setPenjualan(pen);
 			dDao.save(det);
 		}
+		
+		oDao.ubahStatus(pen.getCustomer());
 	}
 }

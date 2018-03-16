@@ -26,7 +26,7 @@ public class OrderDaoImpl implements OrderDao{
 	public List<Order> SearchOrderByCustomer(Customer customer) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "from Order order where order.customer = :cus";
+		String hql = "from Order order where order.customer = :cus and order.statusBarang = 0";
 		List<Order> orders =  session.createQuery(hql).setParameter("cus", customer).list();
 		if(orders.isEmpty()) {
 			return null;
@@ -54,6 +54,13 @@ public class OrderDaoImpl implements OrderDao{
 		or.setJumlahBeli(order.getJumlahBeli());
 		or.setBarang(order.getBarang());
 		session.update(or);
+		session.flush();
+	}
+	
+	public void ubahStatus(Customer customer) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "update Order set Order.statusBarang = 1";
+		session.createQuery(hql);
 		session.flush();
 	}
 
