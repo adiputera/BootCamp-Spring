@@ -25,15 +25,22 @@ public class DetailPenjualan {
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
 	private String id;
+	
 	@ManyToOne
 	private Penjualan penjualan;
+	
 	@ManyToOne
 	private Barang barang;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name="create_date")
 	private Date createDate;
+	
 	@Column(name="user_create")
 	private String userCreate;
+	
+	private int jumlahBeli;
+	
 	public String getId() {
 		return id;
 	}
@@ -63,5 +70,11 @@ public class DetailPenjualan {
 	}
 	public void setUserCreate(String userCreate) {
 		this.userCreate = userCreate;
+	}
+	public int getJumlahBeli() {
+		return jumlahBeli;
+	}
+	public void setJumlahBeli(int jumlahBeli) {
+		this.jumlahBeli = jumlahBeli;
 	}
 }

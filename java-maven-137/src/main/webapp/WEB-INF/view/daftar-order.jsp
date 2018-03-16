@@ -35,45 +35,45 @@ $(document).ready(function(){
 	      'ordering'    : true,
 	      'info'        : true,
 	      'autoWidth'   : false
-	 });
+	 }); // end fungsi table
 	    
-	 $('#btn-search').on('click', function(){
-		 var word = $('#search').val();
-		 window.location="${pageContext.request.contextPath}/menu/src?search="+word;
-	 });
-	 
-	 $('.btn-beli').on('click', function(){
-		 var idCus = $('#piluser').val();
-		 var idBrg = $(this).attr('id');
-		 var elements = $(this).parent().parent();
-		 var select = elements.find('td').eq(2).find('select').val();
-		 console.log(select);
-		 var order = {
-				 customer : {
-					 id : idCus
-				 },
-				 barang : {
-					 id : idBrg
-				 },
-				 jumlahBeli : select
-		 }
-		 $.ajax({
-			url : '${pageContext.request.contextPath}/menu/order',
-			type : 'post',
-			data : JSON.stringify(order),
-			contentType : 'application/json',
-			success : function(data){
-				alert('berhasil ditambah')
-			}, error : function(){
-				alert('gagal')
+	 $('#go-bayar').on('click', function(){
+		var barangs = [];
+		var detailPenjualan = [];
+		
+		$('#tabel-barang > tbody > tr').each(function(index, data){
+			
+			var dp = {
+					barang : {
+						id : $(data).attr('id')
+					},
+					jumlahBeli : $(data).find('td').eq(2).text()
 			}
-		 });
-		 console.log(penjualan);
-	 }); // end btn-beli
-	 
-	 $('#go-order').on('click', function(){
-		 var idCus = $('#piluser').val();
-		 window.location = '${pageContext.request.contextPath}/order?customer='+ idCus;
+			detailPenjualan.push(dp);
+		});
+		
+		var penjualan = {
+				customer : {
+					id : "${customer.id}"
+				},
+				detailPenjualan : detailPenjualan,
+				totalHarga : "${totalHarga}",
+				totalItem : "${totalItem}"
+		};
+		console.log(penjualan);
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/penjualan/save',
+			type : 'POST',
+			contentType : 'application/json',
+			data : JSON.stringify(penjualan),
+			success : function(data){
+				console.log(data);
+			},
+			error : function(){
+				alert('error');
+			}
+		});
 	 });
 });
 </script>
@@ -140,7 +140,7 @@ $(document).ready(function(){
 			</thead>
 			<tbody>
 				<c:forEach items = "${orders }" var="order">
-					<tr>
+					<tr id="${order.barang.id }">
 						<td>${order.barang.namaBarang }</td>
 						<td>Rp. ${order.barang.harga } </td>
 						<td>${order.jumlahBeli }</td>

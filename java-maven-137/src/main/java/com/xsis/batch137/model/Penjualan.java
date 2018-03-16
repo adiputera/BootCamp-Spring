@@ -1,12 +1,15 @@
 package com.xsis.batch137.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,21 +28,32 @@ public class Penjualan {
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
 	private String id;
+	
 	@Column(name="total_item")
 	private int totalItem;
+	
 	@Column(name="kode_penjualan")
 	private String kodePenjualan;
+	
 	@Column(name="total_harga")
 	private Float totalHarga;
+	
 	@Column(name="status_pembayaran")
 	private int StatusPembayaran;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name="create_date")
 	private Date createDate;
+	
 	@Column(name="user_create")
 	private String userCreate;
+	
 	@ManyToOne
 	private Customer customer;
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="penjualan", cascade=javax.persistence.CascadeType.ALL, orphanRemoval=true)
+	List<DetailPenjualan> detailPenjualan; 
+	
 	public String getId() {
 		return id;
 	}
@@ -87,5 +101,11 @@ public class Penjualan {
 	}
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+	public List<DetailPenjualan> getDetailPenjualan() {
+		return detailPenjualan;
+	}
+	public void setDetailPenjualan(List<DetailPenjualan> detailPenjualan) {
+		this.detailPenjualan = detailPenjualan;
 	}
 }
