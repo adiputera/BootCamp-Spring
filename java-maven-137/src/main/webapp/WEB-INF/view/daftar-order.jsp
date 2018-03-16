@@ -82,43 +82,69 @@ $(document).ready(function(){
 <body>
 <div class="container">
 	<br/>
-	<p>
-		<div>
-		Pilih Customer :
-			<select id="piluser">
-				<c:forEach items="${custs }" var="cus">
-					<option value="${cus.id }">${cus.email }</option>
-				</c:forEach>
-			</select>
-		</div>
-	</p>
-	<div id="search-box">
-		<span>search</span>
-		<span><input type="text" id="search"></span>
-		<span><a href="#" id="btn-search" class = "btn btn-primary">Search</a></span>
+	<div id="info-pembelian" style="padding : 20px 0 20px 0" >
+		<table id="info-pembelian">
+			<tr>
+				<th>
+					Name
+				</th>
+				<td>
+					: 
+				</td>
+				<td>
+					${customer.name }
+				</td>
+			</tr>
+			<tr>
+				<th>
+					Email
+				</th>
+				<td>
+					:
+				</td>
+				<td>
+					${customer.email }
+				</td>
+			</tr>
+			<tr>
+				<th>
+					Total Item
+				</th>
+				<td>
+					:
+				</td>
+				<td>
+					${totalItem }
+				</td>
+			</tr>
+			<tr>
+				<th>
+					Total Bayar
+				</th>
+				<td>
+					: 
+				</td>
+				<td>
+					${totalHarga }
+				</td>
+			</tr>
+		</table>
 	</div>
-	<div id="daftar-barang">
+	<div id="daftar-order">
 		<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="tabel-barang">
 			<thead>
 				<th>Nama Barang</th>
 				<th>harga</th>
 				<th>Jumlah</th>
-				<th>Beli</th>
+				<th>Action</th>
 			</thead>
 			<tbody>
-				<c:forEach items = "${barangs }" var="brg">
+				<c:forEach items = "${orders }" var="order">
 					<tr>
-						<td>${brg.namaBarang }</td>
-						<td>Rp. ${brg.harga } </td>
-						<td>
-							<select class="piljml">
-								<% int jml = 0; %>
-								<c:forEach begin="1" end="${brg.stock }">
-									<option value="<%=jml = ++jml %>"><%=jml %></option>
-								</c:forEach>
-							</select>
-						</td>
-						<td><a href="#" id="${brg.id }" class="btn-beli btn btn-info">Pilih</a></td>
+						<td>${order.barang.namaBarang }</td>
+						<td>Rp. ${order.barang.harga } </td>
+						<td>${order.jumlahBeli }</td>
+						<td><a href="#" id="${order.id }" class="btn-beli btn btn-info">Cancel</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -126,7 +152,7 @@ $(document).ready(function(){
 		
 		</table>
 		
-		<a href="#" id="go-order" class="btn btn-primary btn-md">Go to order</a>
+		<a href="#" id="go-bayar" class="btn btn-primary btn-md">Bayar</a>
 		
 	</div>
 

@@ -23,4 +23,9 @@ public class CustomerService {
 		// TODO Auto-generated method stub
 		return cDao.selectAll();
 	}
+
+	public Customer getCustomerById(String id) {
+		// TODO Auto-generated method stub
+		return cDao.getCustomerById(id);
+	}
 }

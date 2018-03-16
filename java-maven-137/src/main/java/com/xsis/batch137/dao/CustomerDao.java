@@ -9,5 +9,7 @@ public interface CustomerDao {
 	void save(Customer cust);
 
 	List<Customer> selectAll();
+
+	Customer getCustomerById(String id);
 	
 }

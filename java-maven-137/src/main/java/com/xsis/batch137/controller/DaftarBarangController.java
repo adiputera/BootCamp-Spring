@@ -53,4 +53,5 @@ public class DaftarBarangController {
 	public void order(@RequestBody Order order) {
 		os.save(order);
 	}
+	
 }
