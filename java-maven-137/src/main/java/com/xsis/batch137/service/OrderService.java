@@ -18,11 +18,28 @@ public class OrderService {
 	OrderDao od;
 	public void save(Order order) {
 		// TODO Auto-generated method stub
-		od.save(order);
+		Order oldOrder = od.SearchOrderByCustomerByIdOrder(order);
+		int newJb = 0;
+		if(oldOrder!=null) {
+			newJb = oldOrder.getJumlahBeli() + order.getJumlahBeli();
+			order.setJumlahBeli(newJb);
+			order.setId(oldOrder.getId());
+			this.update(order);
+		}else {
+			od.save(order);
+		}
 	}
 	public List<Order> searchOrderByCustomer(Customer customer) {
 		// TODO Auto-generated method stub
 		return od.SearchOrderByCustomer(customer);
+	}
+	public Order SearchOrderByCustomerByIdOrder(Order order) {
+		// TODO Auto-generated method stub
+		return od.SearchOrderByCustomerByIdOrder(order);
+	}
+	public void update(Order order) {
+		// TODO Auto-generated method stub
+		od.update(order);
 	}
 
 }

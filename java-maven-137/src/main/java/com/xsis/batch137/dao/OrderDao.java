@@ -11,4 +11,8 @@ public interface OrderDao {
 
 	List<Order> SearchOrderByCustomer(Customer customer);
 
+	Order SearchOrderByCustomerByIdOrder(Order order);
+
+	void update(Order order);
+
 }

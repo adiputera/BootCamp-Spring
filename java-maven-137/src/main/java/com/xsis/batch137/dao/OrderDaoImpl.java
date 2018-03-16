@@ -34,4 +34,27 @@ public class OrderDaoImpl implements OrderDao{
 		return orders;
 	}
 
+	public Order SearchOrderByCustomerByIdOrder(Order order) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "from Order order where order.customer = :customer and order.barang = :barang";
+		List<Order> orders = session.createQuery(hql).setParameter("customer", order.getCustomer()).setParameter("barang", order.getBarang()).list();
+		if(orders.isEmpty()) {
+			return null;
+		}
+		return orders.get(0);
+	}
+
+	public void update(Order order) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Order or = session.get(Order.class, order.getId());
+		or.setId(order.getId());
+		or.setCustomer(order.getCustomer());
+		or.setJumlahBeli(order.getJumlahBeli());
+		or.setBarang(order.getBarang());
+		session.update(or);
+		session.flush();
+	}
+
 }

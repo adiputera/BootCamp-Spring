@@ -51,6 +51,7 @@ public class DaftarBarangController {
 	@RequestMapping(value="/order", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public void order(@RequestBody Order order) {
+		//jika ada didatabase maka update
 		os.save(order);
 	}
 	

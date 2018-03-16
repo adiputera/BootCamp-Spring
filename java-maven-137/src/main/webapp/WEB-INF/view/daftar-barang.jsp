@@ -47,8 +47,7 @@ $(document).ready(function(){
 		 var idBrg = $(this).attr('id');
 		 var elements = $(this).parent().parent();
 		 var select = elements.find('td').eq(2).find('select').val();
-		 console.log(select);
-		 var order = {
+		 var penjualan = {
 				 customer : {
 					 id : idCus
 				 },
@@ -60,7 +59,7 @@ $(document).ready(function(){
 		 $.ajax({
 			url : '${pageContext.request.contextPath}/menu/order',
 			type : 'post',
-			data : JSON.stringify(order),
+			data : JSON.stringify(penjualan),
 			contentType : 'application/json',
 			success : function(data){
 				alert('berhasil ditambah')
