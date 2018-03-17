@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xsis.batch137.dao.BarangDao;
 import com.xsis.batch137.dao.OrderDao;
 import com.xsis.batch137.model.Customer;
 import com.xsis.batch137.model.Order;
@@ -15,11 +16,16 @@ import com.xsis.batch137.model.Order;
 public class OrderService {
 
 	@Autowired
+	BarangDao bd;
+	
+	@Autowired
 	OrderDao od;
+	
 	public void save(Order order) {
 		// TODO Auto-generated method stub
 		Order oldOrder = od.SearchOrderByCustomerByIdOrder(order);
 		int newJb = 0;
+		bd.kurangJumlahBarang(order.getBarang(), order.getJumlahBeli());
 		if(oldOrder!=null) {
 			newJb = oldOrder.getJumlahBeli() + order.getJumlahBeli();
 			order.setJumlahBeli(newJb);
@@ -28,6 +34,7 @@ public class OrderService {
 		}else {
 			od.save(order);
 		}
+		
 	}
 	public List<Order> searchOrderByCustomer(Customer customer) {
 		// TODO Auto-generated method stub

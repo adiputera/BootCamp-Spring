@@ -47,7 +47,7 @@ $(document).ready(function(){
 		 var idBrg = $(this).attr('id');
 		 var elements = $(this).parent().parent();
 		 var select = elements.find('td').eq(2).find('select').val();
-		 var penjualan = {
+		 var order = {
 				 customer : {
 					 id : idCus
 				 },
@@ -59,7 +59,7 @@ $(document).ready(function(){
 		 $.ajax({
 			url : '${pageContext.request.contextPath}/menu/order',
 			type : 'post',
-			data : JSON.stringify(penjualan),
+			data : JSON.stringify(order),
 			contentType : 'application/json',
 			success : function(data){
 				alert('berhasil ditambah')
@@ -67,7 +67,7 @@ $(document).ready(function(){
 				alert('gagal')
 			}
 		 });
-		 console.log(penjualan);
+		 //console.log(order);
 	 }); // end btn-beli
 	 
 	 $('#go-order').on('click', function(){

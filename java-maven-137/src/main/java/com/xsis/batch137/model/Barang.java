@@ -46,7 +46,7 @@ public class Barang {
 	@Temporal(TemporalType.DATE)
 	@Column(name="last_modify")
 	private Date lastModify;
-	private int Stock;
+	private int stock;
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="barang", cascade=javax.persistence.CascadeType.ALL, orphanRemoval=true)
 	private List<Order> orders;
 	
@@ -87,10 +87,10 @@ public class Barang {
 		this.lastModify = lastModify;
 	}
 	public int getStock() {
-		return Stock;
+		return stock;
 	}
 	public void setStock(int stock) {
-		Stock = stock;
+		stock = stock;
 	}
 	public String getKodeBarang() {
 		return kodeBarang;

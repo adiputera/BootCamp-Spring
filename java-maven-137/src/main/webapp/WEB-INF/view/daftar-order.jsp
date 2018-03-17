@@ -68,6 +68,7 @@ $(document).ready(function(){
 			contentType : 'application/json',
 			data : JSON.stringify(penjualan),
 			success : function(data){
+				alert('sukses');
 				console.log(data);
 			},
 			error : function(){

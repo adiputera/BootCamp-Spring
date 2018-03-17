@@ -15,6 +15,6 @@ public interface OrderDao {
 
 	void update(Order order);
 	
-	void ubahStatus(Customer customer);
+	void ubahStatus(Order order);
 
 }

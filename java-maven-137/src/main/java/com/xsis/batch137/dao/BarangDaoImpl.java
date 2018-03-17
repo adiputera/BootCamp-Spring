@@ -25,7 +25,8 @@ public class BarangDaoImpl implements BarangDao {
 	public List<Barang> selectAll() {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		return session.createCriteria(Barang.class).list();
+		String hql = "from Barang where stock > 0";
+		return session.createQuery(hql).list();
 	}
 
 	public Barang getOne(Barang brg) {
@@ -61,6 +62,20 @@ public class BarangDaoImpl implements BarangDao {
 			return null;
 		}
 		return barangs;
+	}
+
+	public void kurangJumlahBarang(Barang brg, int jmlBeli) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "update Barang set stock = stock - :jmlBeli where id = :id";
+		int hasil = session.createQuery(hql).setParameter("jmlBeli", jmlBeli).setParameter("id", brg.getId()).executeUpdate();
+	}
+
+	public void tambahJumlahBarang(Barang brg, int jmlBeli) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "update Barang set stock = stock + :jmlBeli where id = :id";
+		int hasil = session.createQuery(hql).setParameter("jmlBeli", jmlBeli).setParameter("id", brg.getId()).executeUpdate();
 	}
 	
 	

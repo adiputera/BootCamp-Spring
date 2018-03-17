@@ -16,5 +16,10 @@ public interface BarangDao {
 	public void update(Barang brg);
 	//save or update
 	public void saveAtauUpdate(Barang brg);
+	
 	public List<Barang> getBarangBySearchName(String search);
+	
+	public void kurangJumlahBarang(Barang brg, int jmlBeli);
+	
+	public void tambahJumlahBarang(Barang brg, int jmlBeli);
 }

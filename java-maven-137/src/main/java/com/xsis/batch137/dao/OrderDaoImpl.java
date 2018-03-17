@@ -28,10 +28,10 @@ public class OrderDaoImpl implements OrderDao{
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "from Order order where order.customer = :cus and order.statusBarang = 0";
 		List<Order> orders =  session.createQuery(hql).setParameter("cus", customer).list();
-		if(orders.isEmpty()) {
+		if(orders.isEmpty()) 
 			return null;
-		}
-		return orders;
+		else
+			return orders;
 	}
 
 	public Order SearchOrderByCustomerByIdOrder(Order order) {
@@ -57,10 +57,10 @@ public class OrderDaoImpl implements OrderDao{
 		session.flush();
 	}
 	
-	public void ubahStatus(Customer customer) {
+	public void ubahStatus(Order order) {
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "update Order set Order.statusBarang = 1";
-		session.createQuery(hql);
+		String hql = "update Order set statusBarang = 1 where id = :id and statusBarang = 0";
+		session.createQuery(hql).setParameter("id", order.getId()).executeUpdate();
 		session.flush();
 	}
 
