@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xsis.batch137.dao.BarangDao;
 import com.xsis.batch137.model.Barang;
+import com.xsis.batch137.model.Order;
 
 @Service
 @Transactional
@@ -43,5 +44,12 @@ public class BarangService {
 	public List<Barang> getBarangBySearchName(String search) {
 		// TODO Auto-generated method stub
 		return bDao.getBarangBySearchName(search);
+	}
+
+	public void cancel(Order order) {
+		// TODO Auto-generated method stub
+		Barang barang = new Barang();
+		barang.setId(order.getBarang().getId());
+		bDao.tambahJumlahBarang(barang, order.getJumlahBeli());
 	}
 }

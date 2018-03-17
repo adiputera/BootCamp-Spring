@@ -110,6 +110,10 @@ $(document).ready(function(){
 <body>
 <div class="container">
 	<br/>
+	<a href="${pageContext.request.contextPath }/barang" class="btn btn-info">CRUD Barang</a>
+	<a href="${pageContext.request.contextPath }/customer" class="btn btn-info">CRUD Customer</a>
+	<a href="${pageContext.request.contextPath }/menu" class="btn btn-info">Pesan Barang</a>
+	<br/>
 	<h2>Data Barang</h2>
 	<button class="btn btn-info" id="tbladd">Tambah Data</button>
 	<table id="data-brg" class="table table-striped table-bordered"

@@ -70,11 +70,27 @@ $(document).ready(function(){
 			success : function(data){
 				alert('sukses');
 				console.log(data);
+				window.location = '${pageContext.request.contextPath}/menu';
 			},
 			error : function(){
 				alert('error');
 			}
 		});
+	 }); // end fungsi bayar
+	 
+	 $('#tabel-barang').on('click', '.btn-cancel', function(){
+		var id = $(this).attr('id');
+	 	$.ajax({
+	 		url : '${pageContext.request.contextPath}/order/cancel?id='+id,
+	 		type : 'get',
+	 		success : function(data){
+	 			alert('sukses batal order');
+	 			location.reload();
+	 		},
+	 		error : function(){
+	 			alert('gagal');
+	 		}
+	 	});
 	 });
 });
 </script>
@@ -82,6 +98,10 @@ $(document).ready(function(){
 </head>
 <body>
 <div class="container">
+	<br/>
+	<a href="${pageContext.request.contextPath }/barang" class="btn btn-info">CRUD Barang</a>
+	<a href="${pageContext.request.contextPath }/customer" class="btn btn-info">CRUD Customer</a>
+	<a href="${pageContext.request.contextPath }/menu" class="btn btn-info">Pesan Barang</a>
 	<br/>
 	<div id="info-pembelian" style="padding : 20px 0 20px 0" >
 		<table id="info-pembelian">
@@ -145,7 +165,7 @@ $(document).ready(function(){
 						<td>${order.barang.namaBarang }</td>
 						<td>Rp. ${order.barang.harga } </td>
 						<td>${order.jumlahBeli }</td>
-						<td><a href="#" id="${order.id }" class="btn-beli btn btn-info">Cancel</a></td>
+						<td><a href="#" id="${order.id }" class="btn-cancel btn btn-info">Cancel</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

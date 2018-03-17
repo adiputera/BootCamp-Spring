@@ -62,7 +62,8 @@ $(document).ready(function(){
 			data : JSON.stringify(order),
 			contentType : 'application/json',
 			success : function(data){
-				alert('berhasil ditambah')
+				alert('berhasil ditambah');
+				window.location = '${pageContext.request.contextPath}/menu';
 			}, error : function(){
 				alert('gagal')
 			}
@@ -80,6 +81,10 @@ $(document).ready(function(){
 </head>
 <body>
 <div class="container">
+	<br/>
+	<a href="${pageContext.request.contextPath }/barang" class="btn btn-info">CRUD Barang</a>
+	<a href="${pageContext.request.contextPath }/customer" class="btn btn-info">CRUD Customer</a>
+	<a href="${pageContext.request.contextPath }/menu" class="btn btn-info">Pesan Barang</a>
 	<br/>
 	<p>
 		<div>

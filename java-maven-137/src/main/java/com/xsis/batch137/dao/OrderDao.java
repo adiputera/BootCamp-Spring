@@ -17,4 +17,8 @@ public interface OrderDao {
 	
 	void ubahStatus(Order order);
 
+	void cancel(Order order);
+
+	Order getOne(Order order);
+
 }

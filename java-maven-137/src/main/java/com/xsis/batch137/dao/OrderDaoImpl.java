@@ -64,4 +64,18 @@ public class OrderDaoImpl implements OrderDao{
 		session.flush();
 	}
 
+	public void cancel(Order order) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "update Order set statusBarang = 2 where id = :id";
+		session.createQuery(hql).setParameter("id", order.getId()).executeUpdate();
+		session.flush();
+	}
+
+	public Order getOne(Order order) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		return session.get(Order.class, order.getId());
+	}
+
 }

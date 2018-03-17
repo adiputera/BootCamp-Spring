@@ -48,5 +48,16 @@ public class OrderService {
 		// TODO Auto-generated method stub
 		od.update(order);
 	}
+	public void cancel(Order order) {
+		// TODO Auto-generated method stub
+		od.cancel(order);
+	}
+	public Order getOne(String id) {
+		// TODO Auto-generated method stub
+		Order order = new Order();
+		order.setId(id);
+		order.setJumlahBeli(0);
+		return od.getOne(order);
+	}
 
 }

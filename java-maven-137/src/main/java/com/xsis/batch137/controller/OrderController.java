@@ -3,14 +3,18 @@ package com.xsis.batch137.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.xsis.batch137.model.Customer;
 import com.xsis.batch137.model.Order;
+import com.xsis.batch137.service.BarangService;
 import com.xsis.batch137.service.CustomerService;
 import com.xsis.batch137.service.OrderService;
 
@@ -23,6 +27,9 @@ public class OrderController {
 	
 	@Autowired
 	CustomerService cs;
+	
+	@Autowired
+	BarangService bs;
 	
 	@RequestMapping
 	public String index(@RequestParam("customer") String id, Model model) {
@@ -41,5 +48,13 @@ public class OrderController {
 		model.addAttribute("totalHarga", totalHarga);
 		model.addAttribute("totalItem", totalItem);
 		return "daftar-order";
+	}
+	
+	@RequestMapping("/cancel")
+	@ResponseStatus(HttpStatus.OK)
+	public void cancel(@RequestParam("id") String id) {
+		Order order = os.getOne(id);
+		os.cancel(order);
+		bs.cancel(order);
 	}
 }
