@@ -40,6 +40,22 @@ public class OrderService {
 		// TODO Auto-generated method stub
 		return od.SearchOrderByCustomer(customer);
 	}
+	
+	public List<Order> searchCancelOrderByCustomer(Customer customer) {
+		// TODO Auto-generated method stub
+		return od.SearchCancelOrderByCustomer(customer);
+	}
+	
+	public List<Order> searchAllOrderByCustomer(Customer customer) {
+		// TODO Auto-generated method stub
+		return od.SearchAllOrderByCustomer(customer);
+	}
+	
+	public List<Order> searchOrderDibayarByCustomer(Customer customer) {
+		// TODO Auto-generated method stub
+		return od.SearchOrderDibayarByCustomer(customer);
+	}
+	
 	public Order SearchOrderByCustomerByIdOrder(Order order) {
 		// TODO Auto-generated method stub
 		return od.SearchOrderByCustomerByIdOrder(order);

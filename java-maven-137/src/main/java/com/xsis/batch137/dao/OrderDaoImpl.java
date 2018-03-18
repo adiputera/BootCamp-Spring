@@ -78,4 +78,37 @@ public class OrderDaoImpl implements OrderDao{
 		return session.get(Order.class, order.getId());
 	}
 
+	public List<Order> SearchAllOrderByCustomer(Customer customer) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "from Order order where order.customer = :cus";
+		List<Order> orders =  session.createQuery(hql).setParameter("cus", customer).list();
+		if(orders.isEmpty()) 
+			return null;
+		else
+			return orders;
+	}
+
+	public List<Order> SearchCancelOrderByCustomer(Customer customer) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "from Order order where order.customer = :cus and order.statusBarang = 2";
+		List<Order> orders =  session.createQuery(hql).setParameter("cus", customer).list();
+		if(orders.isEmpty()) 
+			return null;
+		else
+			return orders;
+	}
+
+	public List<Order> SearchOrderDibayarByCustomer(Customer customer) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "from Order order where order.customer = :cus and order.statusBarang = 1";
+		List<Order> orders =  session.createQuery(hql).setParameter("cus", customer).list();
+		if(orders.isEmpty()) 
+			return null;
+		else
+			return orders;
+	}
+
 }

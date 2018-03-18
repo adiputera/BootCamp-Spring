@@ -36,62 +36,6 @@ $(document).ready(function(){
 	      'info'        : true,
 	      'autoWidth'   : false
 	 }); // end fungsi table
-	    
-	 $('#go-bayar').on('click', function(){
-		var barangs = [];
-		var detailPenjualan = [];
-		
-		$('#tabel-barang > tbody > tr').each(function(index, data){
-			
-			var dp = {
-					barang : {
-						id : $(data).attr('id')
-					},
-					jumlahBeli : $(data).find('td').eq(2).text()
-			}
-			detailPenjualan.push(dp);
-		});
-		
-		var penjualan = {
-				customer : {
-					id : "${customer.id}"
-				},
-				detailPenjualan : detailPenjualan,
-				totalHarga : "${totalHarga}",
-				totalItem : "${totalItem}"
-		};
-		console.log(penjualan);
-		
-		$.ajax({
-			url : '${pageContext.request.contextPath}/penjualan/save',
-			type : 'POST',
-			contentType : 'application/json',
-			data : JSON.stringify(penjualan),
-			success : function(data){
-				alert('sukses');
-				console.log(data);
-				window.location = '${pageContext.request.contextPath}/menu';
-			},
-			error : function(){
-				alert('error');
-			}
-		});
-	 }); // end fungsi bayar
-	 
-	 $('#tabel-barang').on('click', '.btn-cancel', function(){
-		var id = $(this).attr('id');
-	 	$.ajax({
-	 		url : '${pageContext.request.contextPath}/order/cancel?id='+id,
-	 		type : 'get',
-	 		success : function(data){
-	 			alert('sukses batal order');
-	 			location.reload();
-	 		},
-	 		error : function(){
-	 			alert('gagal');
-	 		}
-	 	});
-	 });
 });
 </script>
 <title>Insert title here</title>
@@ -152,17 +96,20 @@ $(document).ready(function(){
 		</table>
 	</div>
 	<br/>
-	<h2>Daftar Order Dalam Proses</h2>
+	<h2>Daftar Semua Order</h2>
+	<a class ="btn btn-info btn-sm" href="${pageContext.request.contextPath }/order?customer=${customer.id}">Tampilkan Order Dalam Proses</a>
 	<a class ="btn btn-info btn-sm" href="${pageContext.request.contextPath }/order/dibayar?customer=${customer.id}">Tampilkan Order Selesai</a>
 	<a class ="btn btn-info btn-sm" href="${pageContext.request.contextPath }/order/batal?customer=${customer.id}">Tampilkan Order Dibatalkan</a>
-	<a class ="btn btn-info btn-sm" href="${pageContext.request.contextPath }/order/semua?customer=${customer.id}">Tampilkan Semua</a>
 	<div id="daftar-order">
 		<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="tabel-barang">
 			<thead>
 				<th>Nama Barang</th>
 				<th>harga</th>
 				<th>Jumlah</th>
-				<th>Action</th>
+				<th>Status
+					<br/>
+					<small>0 = dalam proses, 1 = selesai, 2 = dibatalkan</small>
+				</th>
 			</thead>
 			<tbody>
 				<c:forEach items = "${orders }" var="order">
@@ -170,7 +117,7 @@ $(document).ready(function(){
 						<td>${order.barang.namaBarang }</td>
 						<td>Rp. ${order.barang.harga } </td>
 						<td>${order.jumlahBeli }</td>
-						<td><a href="#" id="${order.id }" class="btn-cancel btn btn-info">Cancel</a></td>
+						<td>${order.statusBarang }</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -178,7 +125,6 @@ $(document).ready(function(){
 		
 		</table>
 		
-		<a href="#" id="go-bayar" class="btn btn-primary btn-md">Bayar</a>
 		
 	</div>
 

@@ -50,6 +50,63 @@ public class OrderController {
 		return "daftar-order";
 	}
 	
+	@RequestMapping("/batal")
+	public String SearchCancelOrder(@RequestParam("customer") String id, Model model) {
+		Customer cust = cs.getCustomerById(id);
+		List<Order> dataOrder = os.searchCancelOrderByCustomer(cust);
+		model.addAttribute("customer", cust);
+		model.addAttribute("orders", dataOrder);
+		float totalHarga = 0;
+		int totalItem = 0;
+		
+		for(Order order : dataOrder) {
+			float total = order.getBarang().getHarga() * order.getJumlahBeli();
+			totalHarga = totalHarga + total;
+			totalItem = totalItem+1;
+		}
+		model.addAttribute("totalHarga", totalHarga);
+		model.addAttribute("totalItem", totalItem);
+		return "daftar-order-batal";
+	}
+	
+	@RequestMapping("/dibayar")
+	public String SearchOrderDiabayar(@RequestParam("customer") String id, Model model) {
+		Customer cust = cs.getCustomerById(id);
+		List<Order> dataOrder = os.searchOrderDibayarByCustomer(cust);
+		model.addAttribute("customer", cust);
+		model.addAttribute("orders", dataOrder);
+		float totalHarga = 0;
+		int totalItem = 0;
+		
+		for(Order order : dataOrder) {
+			float total = order.getBarang().getHarga() * order.getJumlahBeli();
+			totalHarga = totalHarga + total;
+			totalItem = totalItem+1;
+		}
+		model.addAttribute("totalHarga", totalHarga);
+		model.addAttribute("totalItem", totalItem);
+		return "daftar-order-dibayar";
+	}
+	
+	@RequestMapping("/semua")
+	public String SearchSemuaOrder(@RequestParam("customer") String id, Model model) {
+		Customer cust = cs.getCustomerById(id);
+		List<Order> dataOrder = os.searchAllOrderByCustomer(cust);
+		model.addAttribute("customer", cust);
+		model.addAttribute("orders", dataOrder);
+		float totalHarga = 0;
+		int totalItem = 0;
+		
+		for(Order order : dataOrder) {
+			float total = order.getBarang().getHarga() * order.getJumlahBeli();
+			totalHarga = totalHarga + total;
+			totalItem = totalItem+1;
+		}
+		model.addAttribute("totalHarga", totalHarga);
+		model.addAttribute("totalItem", totalItem);
+		return "daftar-order-semua";
+	}
+	
 	@RequestMapping("/cancel")
 	@ResponseStatus(HttpStatus.OK)
 	public void cancel(@RequestParam("id") String id) {

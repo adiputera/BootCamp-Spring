@@ -20,5 +20,10 @@ public interface OrderDao {
 	void cancel(Order order);
 
 	Order getOne(Order order);
-
+	
+	List<Order> SearchAllOrderByCustomer(Customer customer);
+	
+	List<Order> SearchCancelOrderByCustomer(Customer customer);
+	
+	List<Order> SearchOrderDibayarByCustomer(Customer customer);
 }
