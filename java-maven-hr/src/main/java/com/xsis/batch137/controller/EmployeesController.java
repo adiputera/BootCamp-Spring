@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.xsis.batch137.model.Departments;
 import com.xsis.batch137.model.Employees;
+import com.xsis.batch137.service.DepartmentsService;
 import com.xsis.batch137.service.EmployeesService;
 
 @Controller
@@ -23,9 +25,14 @@ public class EmployeesController {
 	@Autowired
 	EmployeesService rs;
 	
+	@Autowired
+	DepartmentsService ds;
+	
 	@RequestMapping
 	public String index(Model model) {
 		List<Employees> employeess = rs.selectAll();
+		List<Departments> deps = ds.selectAll();
+		model.addAttribute("deps", deps);
 		model.addAttribute("employeess", employeess);
 		return "employees";
 	}

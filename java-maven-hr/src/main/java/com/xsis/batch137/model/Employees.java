@@ -48,7 +48,7 @@ public class Employees {
 	@ManyToOne
 	private Departments departments;
 	
-	@OneToMany(mappedBy="manager")
+	@OneToMany(mappedBy="managers")
 	private List<Departments> department;
 
 	public int getId() {
@@ -137,6 +137,14 @@ public class Employees {
 
 	public void setDepartments(Departments departments) {
 		this.departments = departments;
+	}
+
+	public List<Departments> getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(List<Departments> department) {
+		this.department = department;
 	}
 	
 }

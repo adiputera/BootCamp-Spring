@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.xsis.batch137.model.Countries;
 import com.xsis.batch137.model.Locations;
+import com.xsis.batch137.service.CountriesService;
 import com.xsis.batch137.service.LocationsService;
 
 @Controller
@@ -23,9 +25,14 @@ public class LocationsController {
 	@Autowired
 	LocationsService rs;
 	
+	@Autowired
+	CountriesService cs;
+	
 	@RequestMapping
 	public String index(Model model) {
 		List<Locations> locationss = rs.selectAll();
+		List<Countries> countriess = cs.selectAll();
+		model.addAttribute("countriess", countriess);
 		model.addAttribute("locationss", locationss);
 		return "locations";
 	}

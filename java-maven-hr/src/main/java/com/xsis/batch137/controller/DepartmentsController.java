@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.xsis.batch137.model.Departments;
+import com.xsis.batch137.model.Employees;
+import com.xsis.batch137.model.Locations;
 import com.xsis.batch137.service.DepartmentsService;
+import com.xsis.batch137.service.EmployeesService;
+import com.xsis.batch137.service.LocationsService;
 
 @Controller
 @RequestMapping("/departments")
@@ -23,9 +27,19 @@ public class DepartmentsController {
 	@Autowired
 	DepartmentsService rs;
 	
+	@Autowired
+	LocationsService ls;
+	
+	@Autowired
+	EmployeesService es;
+	
 	@RequestMapping
 	public String index(Model model) {
 		List<Departments> departmentss = rs.selectAll();
+		List<Locations> locs = ls.selectAll();
+		List<Employees> emps = es.selectAll();
+		model.addAttribute("locs", locs);
+		model.addAttribute("emps", emps);
 		model.addAttribute("departmentss", departmentss);
 		return "departments";
 	}

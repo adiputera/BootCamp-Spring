@@ -30,7 +30,7 @@ public class Departments {
 	private List<Employees> employees;
 	
 	@ManyToOne
-	private Employees manager;
+	private Employees managers;
 	
 	public int getId() {
 		return id;
@@ -62,5 +62,13 @@ public class Departments {
 
 	public void setEmployees(List<Employees> employees) {
 		this.employees = employees;
+	}
+
+	public Employees getManagers() {
+		return managers;
+	}
+
+	public void setManagers(Employees managers) {
+		this.managers = managers;
 	}
 }

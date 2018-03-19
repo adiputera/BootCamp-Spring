@@ -52,35 +52,20 @@ $(document).ready(function(){
 	}); // end fungsi delete
 	
 	$('#tbladd').on('click', function(){
-		$('#judul-modal').html('Tambah Data Room');
+		$('#judul-modal').html('Tambah Data Countries');
 		$('#in-id').val('');
 		$('#in-name').val('');
-		$('#in-customer').val('');
-		$('.in-status').prop('checked', true);
-		$('.in-fasilitas').prop('checked', false);
 		$('#form-countries').modal('show');
 	});
 	
 	
 	$('#tblsimpan').on('click', function(){
-		var fas = '';
-		var index = 0;
-		$('.in-fasilitas:checked').each(function(){
-			if(index==0){
-				fas = $(this).val();
-			}
-			else{
-				fas = fas+', '+$(this).val();
-			};
-			index++;
-		});
 		var countries = {
 				id : $('#in-id').val(),
-				name : $('#in-name').val(),
-				type : $('#in-type').val(),
-				customerName : $('#in-customer').val(),
-				fasilitas : fas,
-				status : $('input[name=in-status]:checked').val()
+				countriesName : $('#in-name').val(),
+				regions : {
+					id : $('#in-region').val()
+				}
 			}
 			console.log(countries);
 			validate = $('#add-countries').parsley();
@@ -112,8 +97,9 @@ $(document).ready(function(){
 				dataType: "json",
 				success:function(data) {	
 					console.log('sukses ambil data');
-					
-					
+					$('#in-id').val(data.id);
+					$('#in-name').val(data.countriesName);
+					$('#in-region').val(data.regions.id);
 					$("#form-countries").modal("show");
 				}
 		});
@@ -125,7 +111,7 @@ $(document).ready(function(){
 </head>
 <body>
 <div class="container">
-	<h2>Daftar Room</h2>
+	<h2>Daftar Countries</h2>
 	<button class="btn btn-info" id="tbladd">Tambah Data</button>
 	<table id="data-countries" class="table table-striped table-bordered"
 		cellspacing="0" width="100%">
@@ -163,34 +149,16 @@ $(document).ready(function(){
 					<form id="add-countries">
 						<input type="hidden" id="in-id">
 						<div class="form-group">
-							<label for="exampleInputEmail1">Room Name</label> <input type="text"
-								class="form-control" id="in-name" placeholder="Nama" data-parsley-required="true" data-parsley-length="[4,30]">
+							<label for="exampleInputEmail1">Country Name</label> <input type="text"
+								class="form-control" id="in-name" placeholder="Country Name" data-parsley-required="true" data-parsley-length="[4,30]">
 						</div>
 						<div class="form-group">
 							<label for="exampleInputEmail1">Room Type</label>
-							<select id = "in-type">
-								<option value="Low">Low</option>
-								<option value="Normal">Normal</option>
-								<option value="VIP">VIP</option>
-								<option value="Deluxe">Deluxe</option>
+							<select id = "in-region">
+								<c:forEach items="${regionss }" var="reg">
+									<option value="${reg.id }">${reg.regionName }</option>
+								</c:forEach>
 							</select>
-						</div>
-						<div class="form-group">
-							<label for="exampleInputPassword1">Customer Name</label>
-							<input type="text" class="form-control" id="in-customer" placeholder="Customer" data-parsley-required="true" data-parsley-length="[4,30]"> 
-						</div>
-						<div class="form-group">
-							<label for="exampleInputPassword1">Fasilitas : </label><br/>
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Breakfast"> Breakfast <br/> 
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Lunch"> Lunch <br/>
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Dinner"> Dinner <br/>
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Antar Jemput"> Picked Up <br/>
-						</div>
-						<div class="form-group">
-							<label for="exampleInputPassword1">Status</label>
-							<input type="radio" name="in-status" value="Empty" checked> Empty 
-							<input type="radio" name="in-status" value="Booked"> Booked
-							<input type="radio" name="in-status" value="Filled"> Filled 
 						</div>
 					</form>
 				</div>

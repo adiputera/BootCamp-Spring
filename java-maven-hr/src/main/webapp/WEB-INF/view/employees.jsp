@@ -28,9 +28,9 @@
 <script>
 $(document).ready(function(){
 	
-	$('#data-room').DataTable();
+	$('#data-employees').DataTable();
 	
-	$('#data-room').on('click', '.tbldelete',function(){
+	$('#data-employees').on('click', '.tbldelete',function(){
 		var id = $(this).attr('id');
 		$('#del-id').val(id);
 		$('#modal-del').modal('show');
@@ -40,11 +40,11 @@ $(document).ready(function(){
 		var id = $('#del-id').val();
 		console.log('klik tombol hapus')
 		$.ajax({
-			url: '${pageContext.request.contextPath}/room/delete/'+id,
+			url: '${pageContext.request.contextPath}/employees/delete/'+id,
 			type : 'DELETE',
 			success : function(response) {
 				$('#modal-del').modal('hide');
-				window.location = '${pageContext.request.contextPath}/room';
+				window.location = '${pageContext.request.contextPath}/employees';
 			}, error : function(){
 				alert('gagal');
 			}
@@ -54,47 +54,48 @@ $(document).ready(function(){
 	$('#tbladd').on('click', function(){
 		$('#judul-modal').html('Tambah Data Room');
 		$('#in-id').val('');
-		$('#in-name').val('');
-		$('#in-customer').val('');
-		$('.in-status').prop('checked', true);
-		$('.in-fasilitas').prop('checked', false);
-		$('#form-room').modal('show');
+		$('#in-fisrtname').val('');
+		$('#in-lastname').val('');
+		$('#in-email').val('');
+		$('#in-phone').val('');
+		$('#in-hire').val('');
+		$('#in-salary').val('');
+		$('#in-commission').val('');
+		$('#form-employees').modal('show');
 	});
 	
 	
 	$('#tblsimpan').on('click', function(){
-		var fas = '';
-		var index = 0;
-		$('.in-fasilitas:checked').each(function(){
-			if(index==0){
-				fas = $(this).val();
-			}
-			else{
-				fas = fas+', '+$(this).val();
-			};
-			index++;
-		});
-		var room = {
+		var employees = {
 				id : $('#in-id').val(),
-				name : $('#in-name').val(),
-				type : $('#in-type').val(),
-				customerName : $('#in-customer').val(),
-				fasilitas : fas,
-				status : $('input[name=in-status]:checked').val()
+				firstName : $('#in-firstname').val(),
+				lastName : $('#in-lastname').val(),
+				email : $('#in-email').val(),
+				phoneNumber : $('#in-phone').val(),
+				hireDate : $('#in-hire').val(),
+				salary : $('#in-salary').val(),
+				commissionPct : $('#in-commission').val(),
+				manager : {
+					id : $('#in-manager').val()
+				},
+				departments : {
+					id : $('#in-department').val()
+				}
+				
 			}
-			console.log(room);
-			validate = $('#add-room').parsley();
+			console.log(employees);
+			validate = $('#add-employees').parsley();
 			validate.validate();
 			if(validate.isValid()){
 				$.ajax({
-					url : '${pageContext.request.contextPath}/room/save',
+					url : '${pageContext.request.contextPath}/employees/save',
 					type : 'post',
-					data : JSON.stringify(room),
+					data : JSON.stringify(employees),
 					contentType : 'application/json',
 					success : function(data) {
 						console.log('data');
 						alert('sukses');
-						window.location = '${pageContext.request.contextPath}/room';
+						window.location = '${pageContext.request.contextPath}/employees';
 					},
 					error : function() {
 						alert('gagal');
@@ -103,35 +104,26 @@ $(document).ready(function(){
 			}
 	}); // end fungsi simpan
 	
-	$('#data-room').on('click', '.tblupdate',function(){
+	$('#data-employees').on('click', '.tblupdate',function(){
 		var id = $(this).attr('id');
 		console.log('klik edit');
 		$.ajax({
-				url: '${pageContext.request.contextPath}/room/get-one/'+id,
+				url: '${pageContext.request.contextPath}/employees/get-one/'+id,
 				type: "GET",
 				dataType: "json",
 				success:function(data) {	
 					console.log('sukses ambil data');
 					$('#in-id').val(data.id);
-					$('#in-name').val(data.name);
-					$('#in-type').val(data.type);
-					$('#in-customer').val(data.customerName);
-					$('input[name="in-status"][value="'+data.status+'"]').prop('checked', true);
-					$('.in-fasilitas').prop('checked', false);
-					if(data.fasilitas!=null){
-						var fas = data.fasilitas.split(', ');
-						var i = 0;
-						$.each(fas, function(){
-							$('input[name="in-fasilitas"][value="'+fas[i]+'"]').prop('checked', true);
-							i++;
-						});
-						/* for(i=0; i<fas.length;i++){
-							$('input[name="in-fasilitas"][value="'+fas[i]+'"]').prop('checked', true);
-							console.log(fas[i]);
-						} */
-					}
-					
-					$("#form-room").modal("show");
+					$('#in-fisrtname').val(data.firstName);
+					$('#in-lastname').val(data.lastName);
+					$('#in-email').val(data.email);
+					$('#in-phone').val(data.phoneNumber);
+					$('#in-hire').val(data.hireDate);
+					$('#in-salary').val(data.salary);
+					$('#in-commission').val(data.commissionPct);
+					$('#in-manager').val(data.manager.id);
+					$('#in-department').val(data.departments.id);
+					$("#form-employees").modal("show");
 				}
 		});
 	});
@@ -142,37 +134,45 @@ $(document).ready(function(){
 </head>
 <body>
 <div class="container">
-	<h2>Daftar Room</h2>
+	<h2>Daftar Employee</h2>
 	<button class="btn btn-info" id="tbladd">Tambah Data</button>
-	<table id="data-room" class="table table-striped table-bordered"
+	<table id="data-employees" class="table table-striped table-bordered"
 		cellspacing="0" width="100%">
 		<thead>
 			<th>ID</th>
-			<th>Room Name</th>
-			<th>Room Type</th>
-			<th>Customer Name</th>
-			<th>Fasilitas</th>
-			<th>Status</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Email</th>
+			<th>Phone Number</th>
+			<th>Hire Date</th>
+			<th>Salary</th>
+			<th>Commission</th>
+			<th>Manager</th>
+			<th>Department</th>
 			<th>Action</th>
 		</thead>
 		<tbody>
-			<c:forEach items="${rooms }" var="room">
+			<c:forEach items="${employeess }" var="employees">
 				<tr>
-					<td>${room.id }</td>
-					<td>${room.name }</td>
-					<td>${room.type }</td>
-					<td>${room.customerName }</td>
-					<td>${room.fasilitas }</td>
-					<td>${room.status }</td>
-					<td><a href="#" id="${room.id }"
+					<td>${employees.id }</td>
+					<td>${employees.firstName }</td>
+					<td>${employees.lastName }</td>
+					<td>${employees.email }</td>
+					<td>${employees.phoneNumber }</td>
+					<td>${employees.hireDate }</td>
+					<td>${employees.salary }</td>
+					<td>${employees.commissionPct }</td>
+					<td>${employees.manager.firstName }</td>
+					<td>${employees.departments.departmentName }</td>
+					<td><a href="#" id="${employees.id }"
 						class="tbldelete btn btn-warning">Delete</a> | <a href="#"
-						id="${room.id }" class="tblupdate btn btn-success">Update</a></td>
+						id="${employees.id }" class="tblupdate btn btn-success">Update</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 
-	<div id="form-room" class="modal" tabindex="-1" role="dialog">
+	<div id="form-employees" class="modal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -183,37 +183,51 @@ $(document).ready(function(){
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="add-room">
+					<form id="add-employees">
 						<input type="hidden" id="in-id">
 						<div class="form-group">
-							<label for="exampleInputEmail1">Room Name</label> <input type="text"
-								class="form-control" id="in-name" placeholder="Nama" data-parsley-required="true" data-parsley-length="[4,30]">
+							<label for="exampleInputEmail1">First Name</label> <input type="text"
+								class="form-control" id="in-firstname" placeholder="Nama" data-parsley-required="true" data-parsley-length="[4,30]">
 						</div>
 						<div class="form-group">
-							<label for="exampleInputEmail1">Room Type</label>
-							<select id = "in-type">
-								<option value="Low">Low</option>
-								<option value="Normal">Normal</option>
-								<option value="VIP">VIP</option>
-								<option value="Deluxe">Deluxe</option>
+							<label for="exampleInputEmail1">Last Name</label> <input type="text"
+								class="form-control" id="in-lastname" placeholder="Nama" data-parsley-required="true" data-parsley-length="[4,30]">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputEmail1">Email</label> <input type="email"
+								class="form-control" id="in-email" placeholder="email@email.email" data-parsley-required="true" data-parsley-length="[4,30]">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputEmail1">Phone Number</label> <input type="text"
+								class="form-control" id="in-phone" placeholder="080989999" data-parsley-required="true" data-parsley-length="[4,30]">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputEmail1">Hire Date</label> <input type="date"
+								class="form-control" id="in-hire" data-parsley-required="true"">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputEmail1">Salary</label> <input type="number"
+								class="form-control" id="in-salary" placeholder="10000" data-parsley-required="true" data-parsley-length="[4,30]">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputEmail1">Commission PCT</label> <input type="number"
+								class="form-control" id="in-commission" placeholder="10000" data-parsley-required="true" data-parsley-length="[4,30]">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">Manager :</label>
+							<select id="in-manager">
+								<c:forEach items="${employeess }" var="emp">
+									<option value="${emp.id }">${emp.firstName }</option>
+								</c:forEach>
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="exampleInputPassword1">Customer Name</label>
-							<input type="text" class="form-control" id="in-customer" placeholder="Customer" data-parsley-required="true" data-parsley-length="[4,30]"> 
-						</div>
-						<div class="form-group">
-							<label for="exampleInputPassword1">Fasilitas : </label><br/>
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Breakfast"> Breakfast <br/> 
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Lunch"> Lunch <br/>
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Dinner"> Dinner <br/>
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Antar Jemput"> Picked Up <br/>
-						</div>
-						<div class="form-group">
-							<label for="exampleInputPassword1">Status</label>
-							<input type="radio" name="in-status" value="Empty" checked> Empty 
-							<input type="radio" name="in-status" value="Booked"> Booked
-							<input type="radio" name="in-status" value="Filled"> Filled 
+							<label for="exampleInputPassword1">Department :</label>
+							<select id="in-department">
+								<c:forEach items="${deps }" var="dep">
+									<option value="${dep.id }">${dep.departmentName }</option>
+								</c:forEach>
+							</select>
 						</div>
 					</form>
 				</div>

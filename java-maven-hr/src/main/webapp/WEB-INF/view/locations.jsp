@@ -28,9 +28,9 @@
 <script>
 $(document).ready(function(){
 	
-	$('#data-room').DataTable();
+	$('#data-locations').DataTable();
 	
-	$('#data-room').on('click', '.tbldelete',function(){
+	$('#data-locations').on('click', '.tbldelete',function(){
 		var id = $(this).attr('id');
 		$('#del-id').val(id);
 		$('#modal-del').modal('show');
@@ -40,11 +40,11 @@ $(document).ready(function(){
 		var id = $('#del-id').val();
 		console.log('klik tombol hapus')
 		$.ajax({
-			url: '${pageContext.request.contextPath}/room/delete/'+id,
+			url: '${pageContext.request.contextPath}/locations/delete/'+id,
 			type : 'DELETE',
 			success : function(response) {
 				$('#modal-del').modal('hide');
-				window.location = '${pageContext.request.contextPath}/room';
+				window.location = '${pageContext.request.contextPath}/locations';
 			}, error : function(){
 				alert('gagal');
 			}
@@ -54,47 +54,38 @@ $(document).ready(function(){
 	$('#tbladd').on('click', function(){
 		$('#judul-modal').html('Tambah Data Room');
 		$('#in-id').val('');
-		$('#in-name').val('');
-		$('#in-customer').val('');
-		$('.in-status').prop('checked', true);
-		$('.in-fasilitas').prop('checked', false);
-		$('#form-room').modal('show');
+		$('#in-street').val('');
+		$('#in-postal').val('');
+		$('#in-province').val('');
+		$('#in-city').val('');
+		$('#form-locations').modal('show');
 	});
 	
 	
 	$('#tblsimpan').on('click', function(){
-		var fas = '';
-		var index = 0;
-		$('.in-fasilitas:checked').each(function(){
-			if(index==0){
-				fas = $(this).val();
-			}
-			else{
-				fas = fas+', '+$(this).val();
-			};
-			index++;
-		});
-		var room = {
+		var locations = {
 				id : $('#in-id').val(),
-				name : $('#in-name').val(),
-				type : $('#in-type').val(),
-				customerName : $('#in-customer').val(),
-				fasilitas : fas,
-				status : $('input[name=in-status]:checked').val()
+				streetAddress : $('#in-street').val(),
+				city : $('#in-city').val(),
+				province : $('#in-province').val(),
+				postalCode : $('#in-postal').val(),
+				countries : {
+					id : $('#in-countries').val()
+				}
 			}
-			console.log(room);
-			validate = $('#add-room').parsley();
+			console.log(locations);
+			validate = $('#add-locations').parsley();
 			validate.validate();
 			if(validate.isValid()){
 				$.ajax({
-					url : '${pageContext.request.contextPath}/room/save',
+					url : '${pageContext.request.contextPath}/locations/save',
 					type : 'post',
-					data : JSON.stringify(room),
+					data : JSON.stringify(locations),
 					contentType : 'application/json',
 					success : function(data) {
 						console.log('data');
 						alert('sukses');
-						window.location = '${pageContext.request.contextPath}/room';
+						window.location = '${pageContext.request.contextPath}/locations';
 					},
 					error : function() {
 						alert('gagal');
@@ -103,35 +94,22 @@ $(document).ready(function(){
 			}
 	}); // end fungsi simpan
 	
-	$('#data-room').on('click', '.tblupdate',function(){
+	$('#data-locations').on('click', '.tblupdate',function(){
 		var id = $(this).attr('id');
 		console.log('klik edit');
 		$.ajax({
-				url: '${pageContext.request.contextPath}/room/get-one/'+id,
+				url: '${pageContext.request.contextPath}/locations/get-one/'+id,
 				type: "GET",
 				dataType: "json",
 				success:function(data) {	
 					console.log('sukses ambil data');
 					$('#in-id').val(data.id);
-					$('#in-name').val(data.name);
-					$('#in-type').val(data.type);
-					$('#in-customer').val(data.customerName);
-					$('input[name="in-status"][value="'+data.status+'"]').prop('checked', true);
-					$('.in-fasilitas').prop('checked', false);
-					if(data.fasilitas!=null){
-						var fas = data.fasilitas.split(', ');
-						var i = 0;
-						$.each(fas, function(){
-							$('input[name="in-fasilitas"][value="'+fas[i]+'"]').prop('checked', true);
-							i++;
-						});
-						/* for(i=0; i<fas.length;i++){
-							$('input[name="in-fasilitas"][value="'+fas[i]+'"]').prop('checked', true);
-							console.log(fas[i]);
-						} */
-					}
-					
-					$("#form-room").modal("show");
+					$('#in-street').val(data.streetAddress);
+					$('#in-postal').val(data.postalCode);
+					$('#in-province').val(data.province);
+					$('#in-city').val(data.city);
+					$('#in-countries').val(data.countries.id);
+					$("#form-locations").modal("show");
 				}
 		});
 	});
@@ -142,37 +120,37 @@ $(document).ready(function(){
 </head>
 <body>
 <div class="container">
-	<h2>Daftar Room</h2>
+	<h2>Daftar Locations</h2>
 	<button class="btn btn-info" id="tbladd">Tambah Data</button>
-	<table id="data-room" class="table table-striped table-bordered"
+	<table id="data-locations" class="table table-striped table-bordered"
 		cellspacing="0" width="100%">
 		<thead>
 			<th>ID</th>
-			<th>Room Name</th>
-			<th>Room Type</th>
-			<th>Customer Name</th>
-			<th>Fasilitas</th>
-			<th>Status</th>
+			<th>Street Address</th>
+			<th>City</th>
+			<th>Province</th>
+			<th>Postal Code</th>
+			<th>Country</th>
 			<th>Action</th>
 		</thead>
 		<tbody>
-			<c:forEach items="${rooms }" var="room">
+			<c:forEach items="${locationss }" var="locations">
 				<tr>
-					<td>${room.id }</td>
-					<td>${room.name }</td>
-					<td>${room.type }</td>
-					<td>${room.customerName }</td>
-					<td>${room.fasilitas }</td>
-					<td>${room.status }</td>
-					<td><a href="#" id="${room.id }"
+					<td>${locations.id }</td>
+					<td>${locations.streetAddress }</td>
+					<td>${locations.city }</td>
+					<td>${locations.province }</td>
+					<td>${locations.postalCode }</td>
+					<td>${locations.countries.countriesName }</td>
+					<td><a href="#" id="${locations.id }"
 						class="tbldelete btn btn-warning">Delete</a> | <a href="#"
-						id="${room.id }" class="tblupdate btn btn-success">Update</a></td>
+						id="${locations.id }" class="tblupdate btn btn-success">Update</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 
-	<div id="form-room" class="modal" tabindex="-1" role="dialog">
+	<div id="form-locations" class="modal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -183,37 +161,32 @@ $(document).ready(function(){
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="add-room">
+					<form id="add-locations">
 						<input type="hidden" id="in-id">
 						<div class="form-group">
-							<label for="exampleInputEmail1">Room Name</label> <input type="text"
-								class="form-control" id="in-name" placeholder="Nama" data-parsley-required="true" data-parsley-length="[4,30]">
+							<label for="exampleInputEmail1">Street Address</label> <input type="text"
+								class="form-control" id="in-street" placeholder="Street Address" data-parsley-required="true" data-parsley-length="[4,30]">
 						</div>
 						<div class="form-group">
-							<label for="exampleInputEmail1">Room Type</label>
-							<select id = "in-type">
-								<option value="Low">Low</option>
-								<option value="Normal">Normal</option>
-								<option value="VIP">VIP</option>
-								<option value="Deluxe">Deluxe</option>
+							<label for="exampleInputEmail1">City</label>
+							<input type="text"
+								class="form-control" id="in-city" placeholder="City" data-parsley-required="true" data-parsley-length="[4,30]">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">Province</label>
+							<input type="text" class="form-control" id="in-province" placeholder="Province" data-parsley-required="true" data-parsley-length="[4,30]"> 
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">Postal Code : </label><br/>
+							<input type="text" class="form-control" id="in-postal" placeholder="Postal Code" data-parsley-required="true" data-parsley-length="[4,30]">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">Countries :</label>
+							<select id="in-countries">
+								<c:forEach items="${countriess }" var="cou">
+									<option value="${cou.id }">${cou.countriesName }</option>
+								</c:forEach>
 							</select>
-						</div>
-						<div class="form-group">
-							<label for="exampleInputPassword1">Customer Name</label>
-							<input type="text" class="form-control" id="in-customer" placeholder="Customer" data-parsley-required="true" data-parsley-length="[4,30]"> 
-						</div>
-						<div class="form-group">
-							<label for="exampleInputPassword1">Fasilitas : </label><br/>
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Breakfast"> Breakfast <br/> 
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Lunch"> Lunch <br/>
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Dinner"> Dinner <br/>
-							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Antar Jemput"> Picked Up <br/>
-						</div>
-						<div class="form-group">
-							<label for="exampleInputPassword1">Status</label>
-							<input type="radio" name="in-status" value="Empty" checked> Empty 
-							<input type="radio" name="in-status" value="Booked"> Booked
-							<input type="radio" name="in-status" value="Filled"> Filled 
 						</div>
 					</form>
 				</div>
