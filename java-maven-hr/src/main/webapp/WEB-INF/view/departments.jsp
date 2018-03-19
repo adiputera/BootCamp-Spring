@@ -66,7 +66,7 @@ $(document).ready(function(){
 				locations : {
 					id : $('#in-location').val()
 				},
-				managers : {
+				manager : {
 					id : $('#in-manager').val()
 				}
 			}
@@ -134,7 +134,7 @@ $(document).ready(function(){
 					<td>${departments.departmentName }</td>
 					<td>${departments.locations.streetAddress }</td>
 					<td>${departments.locations.city }</td>
-					<td>${departments.managers.first_name } ${departments.managers.last_name }</td>
+					<td>${departments.manager.firstName } ${departments.manager.lastName }</td>
 					<td><a href="#" id="${departments.id }"
 						class="tbldelete btn btn-warning">Delete</a> | <a href="#"
 						id="${departments.id }" class="tblupdate btn btn-success">Update</a></td>
@@ -172,7 +172,7 @@ $(document).ready(function(){
 							<label for="exampleInputEmail1">Manager</label>
 							<select id = "in-manager">
 								<c:forEach items="${emps }" var="emp">
-									<option value="${emp.id }">${emp.first_name } ${emp.last_name }</option>
+									<option value="${emp.id }">${emp.firstName } ${emp.lastName }</option>
 								</c:forEach>
 							</select>
 						</div>

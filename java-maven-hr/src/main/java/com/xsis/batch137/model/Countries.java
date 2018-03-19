@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ public class Countries {
 	@ManyToOne
 	private Regions regions;
 	
-	@OneToMany(mappedBy="countries")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="countries", cascade=javax.persistence.CascadeType.ALL, orphanRemoval=true)
 	private List<Locations> location;
 	
 	public int getId() {

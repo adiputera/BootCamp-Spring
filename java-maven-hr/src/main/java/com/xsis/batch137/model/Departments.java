@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,11 +27,11 @@ public class Departments {
 	@ManyToOne
 	private Locations locations;
 	
-	@OneToMany(mappedBy="departments")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="departments")
 	private List<Employees> employees;
 	
-	@ManyToOne
-	private Employees managers;
+	@ManyToOne(cascade=javax.persistence.CascadeType.ALL)
+	private Employees manager;
 	
 	public int getId() {
 		return id;
@@ -64,11 +65,11 @@ public class Departments {
 		this.employees = employees;
 	}
 
-	public Employees getManagers() {
-		return managers;
+	public Employees getManager() {
+		return manager;
 	}
 
-	public void setManagers(Employees managers) {
-		this.managers = managers;
+	public void setManager(Employees manager) {
+		this.manager = manager;
 	}
 }

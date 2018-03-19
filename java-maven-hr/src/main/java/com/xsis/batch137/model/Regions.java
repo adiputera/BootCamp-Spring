@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class Regions {
 	@Column(name="region_name")
 	private String regionName;
 	
-	@OneToMany(mappedBy="regions")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="regions", cascade=javax.persistence.CascadeType.ALL, orphanRemoval=true)
 	private List<Countries> countries;
 	
 	public int getId() {

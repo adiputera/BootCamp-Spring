@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,16 +40,16 @@ public class Employees {
 	@Column(name="commission_pct")
 	private float commissionPct;
 	
-	@ManyToOne
+	@ManyToOne(cascade=javax.persistence.CascadeType.ALL)
 	private Employees manager;
 	
-	@OneToMany(mappedBy="manager")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="manager")
 	private List<Employees> employees;
 	
-	@ManyToOne
+	@ManyToOne(cascade=javax.persistence.CascadeType.ALL)
 	private Departments departments;
 	
-	@OneToMany(mappedBy="managers")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="manager")
 	private List<Departments> department;
 
 	public int getId() {
