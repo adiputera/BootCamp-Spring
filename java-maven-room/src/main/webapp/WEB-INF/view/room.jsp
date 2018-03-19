@@ -53,6 +53,11 @@ $(document).ready(function(){
 	
 	$('#tbladd').on('click', function(){
 		$('#judul-modal').html('Tambah Data Room');
+		$('#in-id').val('');
+		$('#in-name').val('');
+		$('#in-customer').val('');
+		$('.in-status').prop('checked', true);
+		$('.in-fasilitas').prop('checked', false);
 		$('#form-room').modal('show');
 	});
 	
@@ -61,10 +66,17 @@ $(document).ready(function(){
 		var fas = '';
 		var index = 0;
 		$('.in-fasilitas:checked').each(function(){
+			// fungsi untuk nyambung string
 			if(index==0){
+				// jika index 0 (data pertama), maka fas = data
+				// misal fas = breakfast
 				fas = $(this).val();
 			}
 			else{
+				//jika index lebih dari 0, fas = fas + koma + data berikutnya
+				// misal fas awal = breakfast
+				// maka berikutnya fas = breakfast + koma + data berikutnya(misal lunch)
+				//hasilnya breakfast, lunch
 				fas = fas+', '+$(this).val();
 			};
 			index++;
@@ -112,13 +124,18 @@ $(document).ready(function(){
 					$('#in-type').val(data.type);
 					$('#in-customer').val(data.customerName);
 					$('input[name="in-status"][value="'+data.status+'"]').prop('checked', true);
-					if(data.fasilitas!=null){
-						var fas = data.fasilitas.split(', ');
-						var i = 0;
-						$.each(fas, function(){
+					$('.in-fasilitas').prop('checked', false);
+					if(data.fasilitas!=null){ //data.fasilitas -> column fasilitas dari database
+						var fas = data.fasilitas.split(', '); 
+						// fasilitas di-split dengan pemisah koma, dimasukkan ke fas sebagai array, fas -> array
+						// misal data fasilitas breakfast, lunch, dinner, maka array fas = [breakfast, lunch, dinner]
+						var i = 0; //untuk index
+						$.each(fas, function(){ //for each
+							// jika ada yang sama value checkbox nya dengan yang ada di database, checkbox di cek
 							$('input[name="in-fasilitas"][value="'+fas[i]+'"]').prop('checked', true);
 							i++;
 						});
+						// atau bisa pakai for di bawah
 						/* for(i=0; i<fas.length;i++){
 							$('input[name="in-fasilitas"][value="'+fas[i]+'"]').prop('checked', true);
 							console.log(fas[i]);
@@ -197,7 +214,7 @@ $(document).ready(function(){
 							<input type="text" class="form-control" id="in-customer" placeholder="Customer" data-parsley-required="true" data-parsley-length="[4,30]"> 
 						</div>
 						<div class="form-group">
-							<label for="exampleInputPassword1">Fasilitas</label>
+							<label for="exampleInputPassword1">Fasilitas : </label><br/>
 							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Breakfast"> Breakfast <br/> 
 							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Lunch"> Lunch <br/>
 							<input type="checkbox" class="in-fasilitas" name="in-fasilitas" value="Dinner"> Dinner <br/>
