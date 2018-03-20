@@ -41,16 +41,20 @@ public class Employees {
 	@Column(name="commission_pct")
 	private float commissionPct;
 	
+	//relasi ke manager
 	@ManyToOne
 	private Employees manager;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="manager", cascade= {CascadeType.ALL})
+	//relasi manager
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="manager", cascade= {CascadeType.ALL}, orphanRemoval=true)
 	private List<Employees> employees;
 	
+	//relasi departemen
 	@ManyToOne
 	private Departments departments;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="managers", cascade= {CascadeType.ALL})
+	//relasi departemen-manager
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="managers", cascade= {CascadeType.ALL}, orphanRemoval=true)
 	private List<Departments> department;
 
 	public int getId() {

@@ -78,7 +78,6 @@ $(document).ready(function(){
 					contentType : 'application/json',
 					success : function(data) {
 						console.log('data');
-						alert('sukses');
 						window.location = '${pageContext.request.contextPath}/countries';
 					},
 					error : function() {
@@ -161,7 +160,7 @@ $(document).ready(function(){
 								class="form-control" id="in-name" placeholder="Country Name" data-parsley-required="true" data-parsley-length="[4,30]">
 						</div>
 						<div class="form-group">
-							<label for="exampleInputEmail1">Room Type</label>
+							<label for="exampleInputEmail1">Regions : </label>
 							<select id = "in-region">
 								<c:forEach items="${regionss }" var="reg">
 									<option value="${reg.id }">${reg.regionName }</option>

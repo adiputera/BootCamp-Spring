@@ -104,6 +104,8 @@ $(document).ready(function(){
 					$('#in-name').val(data.departmentName);
 					$('#in-city').val(data.locations.id);
 					$("#form-departments").modal("show");
+				}, error : function(){
+					console.log('gagal ambil data');
 				}
 		});
 	});

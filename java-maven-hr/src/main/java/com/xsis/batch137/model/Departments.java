@@ -29,9 +29,10 @@ public class Departments {
 	@ManyToOne
 	private Locations locations;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="departments", cascade= {CascadeType.ALL})
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="departments", cascade= {CascadeType.ALL}, orphanRemoval=true)
 	private List<Employees> employees;
 	
+	//relasi manager
 	@ManyToOne
 	@JoinColumn(name="manager_id")
 	private Employees managers;

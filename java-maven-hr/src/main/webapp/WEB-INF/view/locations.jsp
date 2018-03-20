@@ -84,7 +84,6 @@ $(document).ready(function(){
 					contentType : 'application/json',
 					success : function(data) {
 						console.log('data');
-						alert('sukses');
 						window.location = '${pageContext.request.contextPath}/locations';
 					},
 					error : function() {
