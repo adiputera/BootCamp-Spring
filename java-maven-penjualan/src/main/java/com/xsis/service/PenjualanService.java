@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xsis.dao.DetailPenjualanDao;
+import com.xsis.dao.OrderDao;
 import com.xsis.dao.PenjualanDao;
+import com.xsis.model.Barang;
+import com.xsis.model.DetailPenjualan;
+import com.xsis.model.Order;
 import com.xsis.model.Penjualan;
 
 @Service
@@ -14,33 +19,32 @@ import com.xsis.model.Penjualan;
 public class PenjualanService {
 	
 	@Autowired
-	PenjualanDao cDao;
+	PenjualanDao pDao;
 	
-	public void save(Penjualan jual) {
-		cDao.save(jual);
-	}
+	@Autowired
+	DetailPenjualanDao dDao;
 	
-	public List<Penjualan> selectAll(){
-		return cDao.selectAll();
-	}
+	@Autowired
+	OrderDao oDao;
 	
-	public void delete(Penjualan jual) {
-		cDao.delete(jual);
-	}
-	
-	public void saveOrUpdate(Penjualan jual) {
-		cDao.saveAtauUpdate(jual);
-	}
-
-	public Penjualan getOne(int id) {
-		// TODO Auto-generated method stub
-		Penjualan Penjualan = new Penjualan();
-		Penjualan.setId(id);
-		return cDao.getOne(Penjualan);
-	}
-
-	public void update(Penjualan jual) {
-		// TODO Auto-generated method stub
-		cDao.update(jual);
+	public void save(Penjualan penjualan) {
+		Penjualan pen = new Penjualan();
+		pen.setCustomer(penjualan.getCustomer());
+		pen.setTotalHarga(penjualan.getTotalHarga());
+		pen.setTotalItem(penjualan.getTotalItem());
+		pDao.save(pen);
+		for(Order order : oDao.SearchOrderByCustomer(pen.getCustomer())) {
+			oDao.ubahStatus(order);
+		}
+		for(DetailPenjualan dp : penjualan.getDetailPenjualan()) {
+			Barang barang = new Barang();
+			barang.setId(dp.getBarang().getId());
+			DetailPenjualan det = new DetailPenjualan();
+			det.setBarang(barang);
+			det.setJumlahBeli(dp.getJumlahBeli());
+			det.setPenjualan(pen);
+			dDao.save(det);
+		}
+		
 	}
 }

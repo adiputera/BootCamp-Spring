@@ -3,33 +3,44 @@ package com.xsis.model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="CUSTOMER")
+@Table(name="customer_xe")
 public class Customer {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	private int id;
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+	private String id;
+	@NotNull
+	@NotEmpty
+	@Size(min=4, max=30)
 	private String name;
 	private String address;
 	private String contact;
+	@Email
+	private String email;
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="customer", cascade=javax.persistence.CascadeType.ALL, orphanRemoval=true)
+	private List<Order> orders;
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="customer", cascade=javax.persistence.CascadeType.ALL, orphanRemoval=true)
+	private List<Penjualan> juals;
 	
-	@OneToMany(mappedBy="customer")
-	List<Penjualan> juals;
-	
-	@OneToMany(mappedBy="customer")
-	List<Pesanan> pesans;
-	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -50,18 +61,22 @@ public class Customer {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public List<Order> getOrders() {
+		return orders;
+	}
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 	public List<Penjualan> getJuals() {
 		return juals;
 	}
 	public void setJuals(List<Penjualan> juals) {
 		this.juals = juals;
 	}
-	public List<Pesanan> getPesans() {
-		return pesans;
-	}
-	public void setPesans(List<Pesanan> pesans) {
-		this.pesans = pesans;
-	}
-	
-	
 }

@@ -12,35 +12,20 @@ import com.xsis.model.Customer;
 @Service
 @Transactional
 public class CustomerService {
-	
 	@Autowired
 	CustomerDao cDao;
 	
 	public void save(Customer cust) {
 		cDao.save(cust);
 	}
-	
-	public List<Customer> selectAll(){
+
+	public List<Customer> selectAll() {
+		// TODO Auto-generated method stub
 		return cDao.selectAll();
 	}
-	
-	public void delete(Customer cust) {
-		cDao.delete(cust);
-	}
-	
-	public void saveOrUpdate(Customer cust) {
-		cDao.saveAtauUpdate(cust);
-	}
 
-	public Customer getOne(int id) {
+	public Customer getCustomerById(String id) {
 		// TODO Auto-generated method stub
-		Customer Customer = new Customer();
-		Customer.setId(id);
-		return cDao.getOne(Customer);
-	}
-
-	public void update(Customer cust) {
-		// TODO Auto-generated method stub
-		cDao.update(cust);
+		return cDao.getCustomerById(id);
 	}
 }

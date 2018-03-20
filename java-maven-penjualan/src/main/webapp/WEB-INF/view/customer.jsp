@@ -61,7 +61,8 @@ $(document).ready(function(){
 				id : $('#in-id').val(),
 				name : $('#in-nama').val(),
 				address : $('#in-alamat').val(),
-				contact : $('#in-contact').val()
+				contact : $('#in-contact').val(),
+				email : $('#in-email').val()
 			}
 			validate = $('#add-cus').parsley();
 			validate.validate();
@@ -94,6 +95,7 @@ $(document).ready(function(){
 					$('#in-nama').val(data.name);
 					$('#in-alamat').val(data.address);
 					$('#in-contact').val(data.contact);
+					$('#in-email').val(data.email);
 					$("#form-cus").modal("show");
 				}
 		});
@@ -106,6 +108,10 @@ $(document).ready(function(){
 <body>
 <div class="container">
 	<br/>
+	<a href="${pageContext.request.contextPath }/barang" class="btn btn-info">CRUD Barang</a>
+	<a href="${pageContext.request.contextPath }/customer" class="btn btn-info">CRUD Customer</a>
+	<a href="${pageContext.request.contextPath }/menu" class="btn btn-info">Pesan Barang</a>
+	<br/>
 	<h2>Data Customer</h2>
 	<button class="btn btn-info" id="tbladd">Tambah Data</button>
 	<table id="data-cus" class="table table-striped table-bordered"
@@ -115,6 +121,7 @@ $(document).ready(function(){
 			<th>Nama</th>
 			<th>Alamat</th>
 			<th>Contact</th>
+			<th>Email</th>
 			<th>Action</th>
 		</thead>
 		<tbody>
@@ -124,6 +131,7 @@ $(document).ready(function(){
 					<td>${cus.name }</td>
 					<td>${cus.address }</td>
 					<td>${cus.contact }</td>
+					<td>${cus.email }</td>
 					<td><a href="#" id="${cus.id }"
 						class="tbldelete btn btn-warning">Delete</a> | <a href="#"
 						id="${cus.id }" class="tblupdate btn btn-success">Update</a></td>
@@ -156,6 +164,10 @@ $(document).ready(function(){
 						<div class="form-group">
 							<label for="exampleInputPassword1">Contact</label>
 							<input type="number" class="form-control" id="in-contact" placeholder="Contact" data-parsley-required="true"> 
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">Email</label>
+							<input type="email" class="form-control" id="in-email" placeholder="Email" data-parsley-required="true"> 
 						</div>
 					</form>
 				</div>

@@ -8,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.xsis.model.Barang;
-import com.xsis.model.Customer;
 
 @Repository
 public class BarangDaoImpl implements BarangDao {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
-	
+	SessionFactory sessionFactory;
+
 	public void save(Barang brg) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
@@ -26,7 +25,8 @@ public class BarangDaoImpl implements BarangDao {
 	public List<Barang> selectAll() {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		return session.createCriteria(Barang.class).list();
+		String hql = "from Barang where stock > 0";
+		return session.createQuery(hql).list();
 	}
 
 	public Barang getOne(Barang brg) {
@@ -39,21 +39,44 @@ public class BarangDaoImpl implements BarangDao {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
 		session.delete(brg);
-		session.flush();
 	}
 
 	public void update(Barang brg) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
 		session.update(brg);
-		session.flush();
 	}
 
 	public void saveAtauUpdate(Barang brg) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(brg);
-		session.flush();
 	}
+
+	public List<Barang> getBarangBySearchName(String search) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "from Barang br where lower(br.namaBarang) like :nb";
+		List<Barang> barangs = session.createQuery(hql).setParameter("nb", "%"+search.toLowerCase()+"%").list();
+		if(barangs.isEmpty()) {
+			return null;
+		}
+		return barangs;
+	}
+
+	public void kurangJumlahBarang(Barang brg, int jmlBeli) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "update Barang set stock = stock - :jmlBeli where id = :id";
+		int hasil = session.createQuery(hql).setParameter("jmlBeli", jmlBeli).setParameter("id", brg.getId()).executeUpdate();
+	}
+
+	public void tambahJumlahBarang(Barang brg, int jmlBeli) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "update Barang set stock = stock + :jmlBeli where id = :id";
+		int hasil = session.createQuery(hql).setParameter("jmlBeli", jmlBeli).setParameter("id", brg.getId()).executeUpdate();
+	}
+	
 	
 }

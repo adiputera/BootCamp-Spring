@@ -60,6 +60,7 @@ $(document).ready(function(){
 	$('#tblsimpan').on('click', function(){
 		var barang = {
 				id : $('#in-id').val(),
+				kodeBarang : $('#in-kode').val(),
 				namaBarang : $('#in-nama').val(),
 				harga : $('#in-harga').val(),
 				stock : $('#in-stock').val()
@@ -93,6 +94,7 @@ $(document).ready(function(){
 				success:function(data) {	
 					console.log('sukses ambil data');
 					$('#in-id').val(data.id);
+					$('#in-kode').val(data.kodeBarang);
 					$('#in-nama').val(data.namaBarang);
 					$('#in-harga').val(data.harga);
 					$('#in-stock').val(data.stock);
@@ -108,21 +110,28 @@ $(document).ready(function(){
 <body>
 <div class="container">
 	<br/>
+	<a href="${pageContext.request.contextPath }/barang" class="btn btn-info">CRUD Barang</a>
+	<a href="${pageContext.request.contextPath }/customer" class="btn btn-info">CRUD Customer</a>
+	<a href="${pageContext.request.contextPath }/menu" class="btn btn-info">Pesan Barang</a>
+	<br/>
 	<h2>Data Barang</h2>
 	<button class="btn btn-info" id="tbladd">Tambah Data</button>
 	<table id="data-brg" class="table table-striped table-bordered"
 		cellspacing="0" width="100%">
 		<thead>
 			<th>ID</th>
+			<th>Kode Barang</th>
 			<th>Nama Barang</th>
 			<th>Harga</th>
 			<th>Stock</th>
+			
 			<th>Action</th>
 		</thead>
 		<tbody>
-			<c:forEach items="${brgs }" var="brg">
+			<c:forEach items="${custs }" var="brg">
 				<tr>
 					<td>${brg.id }</td>
+					<td>${brg.kodeBarang }</td>
 					<td>${brg.namaBarang }</td>
 					<td>Rp. ${brg.harga }</td>
 					<td>${brg.stock }</td>
@@ -147,6 +156,10 @@ $(document).ready(function(){
 				<div class="modal-body">
 					<form id="add-brg">
 						<input type="hidden" id="in-id">
+						<div class="form-group">
+							<label for="exampleInputEmail1">Kode Barang</label> <input type="text"
+								class="form-control" id="in-kode" placeholder="Nama" data-parsley-required="true" data-parsley-length="[4,30]">
+						</div>
 						<div class="form-group">
 							<label for="exampleInputEmail1">Nama Barang</label> <input type="text"
 								class="form-control" id="in-nama" placeholder="Nama" data-parsley-required="true" data-parsley-length="[4,30]">

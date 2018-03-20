@@ -1,61 +1,100 @@
 package com.xsis.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="PENJUALAN")
+@Table(name="penjualan_xe")
 public class Penjualan {
 	
+	public Penjualan() {
+		this.createDate = new Date();
+		this.StatusPembayaran = 0;
+	}
 	@Id
-	private int id;
-	private int items;
-	private double total;
-	@Column(name="kode_transaksi")
-	private int kodeTransaksi;
-	@Column(name="status_bayar")
-	private String statusBayar;
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+	private String id;
+	
+	@Column(name="total_item")
+	private int totalItem;
+	
+	@Column(name="kode_penjualan")
+	private String kodePenjualan;
+	
+	@Column(name="total_harga")
+	private Float totalHarga;
+	
+	@Column(name="status_pembayaran")
+	private int StatusPembayaran;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="create_date")
+	private Date createDate;
+	
+	@Column(name="user_create")
+	private String userCreate;
 	
 	@ManyToOne
 	private Customer customer;
-	@OneToMany(mappedBy="penjualan")
-	List<DetailPenjualan> dps;
 	
-	public int getId() {
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="penjualan", cascade=javax.persistence.CascadeType.ALL, orphanRemoval=true)
+	List<DetailPenjualan> detailPenjualan; 
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	public int getItems() {
-		return items;
+	public int getTotalItem() {
+		return totalItem;
 	}
-	public void setItems(int items) {
-		this.items = items;
+	public void setTotalItem(int totalItem) {
+		this.totalItem = totalItem;
 	}
-	public double getTotal() {
-		return total;
+	public String getKodePenjualan() {
+		return kodePenjualan;
 	}
-	public void setTotal(double total) {
-		this.total = total;
+	public void setKodePenjualan(String kodePenjualan) {
+		this.kodePenjualan = kodePenjualan;
 	}
-	public int getKodeTransaksi() {
-		return kodeTransaksi;
+	public Float getTotalHarga() {
+		return totalHarga;
 	}
-	public void setKodeTransaksi(int kodeTransaksi) {
-		this.kodeTransaksi = kodeTransaksi;
+	public void setTotalHarga(Float totalHarga) {
+		this.totalHarga = totalHarga;
 	}
-	public String getStatusBayar() {
-		return statusBayar;
+	public int getStatusPembayaran() {
+		return StatusPembayaran;
 	}
-	public void setStatusBayar(String statusBayar) {
-		this.statusBayar = statusBayar;
+	public void setStatusPembayaran(int statusPembayaran) {
+		StatusPembayaran = statusPembayaran;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	public String getUserCreate() {
+		return userCreate;
+	}
+	public void setUserCreate(String userCreate) {
+		this.userCreate = userCreate;
 	}
 	public Customer getCustomer() {
 		return customer;
@@ -63,11 +102,10 @@ public class Penjualan {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	public List<DetailPenjualan> getDps() {
-		return dps;
+	public List<DetailPenjualan> getDetailPenjualan() {
+		return detailPenjualan;
 	}
-	public void setDps(List<DetailPenjualan> dps) {
-		this.dps = dps;
+	public void setDetailPenjualan(List<DetailPenjualan> detailPenjualan) {
+		this.detailPenjualan = detailPenjualan;
 	}
-	
 }

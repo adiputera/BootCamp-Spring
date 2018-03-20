@@ -7,11 +7,12 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.xsis.model.Barang;
 import com.xsis.model.Customer;
 
 @Repository
 public class CustomerDaoImpl implements CustomerDao {
-	
+
 	@Autowired
 	SessionFactory sessionFactory;
 	
@@ -28,31 +29,11 @@ public class CustomerDaoImpl implements CustomerDao {
 		return session.createCriteria(Customer.class).list();
 	}
 
-	public Customer getOne(Customer cust) {
+	public Customer getCustomerById(String id) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		return session.get(Customer.class, cust.getId());
-	}
-
-	public void delete(Customer cust) {
-		// TODO Auto-generated method stub
-		Session session = sessionFactory.getCurrentSession();
-		session.delete(cust);
-		session.flush();
-	}
-
-	public void update(Customer cust) {
-		// TODO Auto-generated method stub
-		Session session = sessionFactory.getCurrentSession();
-		session.update(cust);
-		session.flush();
-	}
-
-	public void saveAtauUpdate(Customer cust) {
-		// TODO Auto-generated method stub
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(cust);
-		session.flush();
+		Customer cust = session.get(Customer.class, id);
+		return cust;
 	}
 	
 }
