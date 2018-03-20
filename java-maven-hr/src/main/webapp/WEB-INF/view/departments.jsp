@@ -66,7 +66,7 @@ $(document).ready(function(){
 				locations : {
 					id : $('#in-location').val()
 				},
-				manager : {
+				managers : {
 					id : $('#in-manager').val()
 				}
 			}
@@ -103,7 +103,6 @@ $(document).ready(function(){
 					$('#in-id').val(data.id);
 					$('#in-name').val(data.departmentName);
 					$('#in-city').val(data.locations.id);
-					$('#in-manager').val(data.manager.id);
 					$("#form-departments").modal("show");
 				}
 		});
@@ -115,7 +114,15 @@ $(document).ready(function(){
 </head>
 <body>
 <div class="container">
-	<h2>Daftar Room</h2>
+	<br/>
+	<a href="${pageContext.request.contextPath }/" class="btn btn-success">Halaman Depan</a>
+	<a href="${pageContext.request.contextPath }/regions" class="btn btn-success">Regions</a>
+	<a href="${pageContext.request.contextPath }/countries" class="btn btn-success">Countries</a>
+	<a href="${pageContext.request.contextPath }/locations" class="btn btn-success">Locations</a>
+	<a href="${pageContext.request.contextPath }/departments" class="btn btn-success">Departments</a>
+	<a href="${pageContext.request.contextPath }/employees" class="btn btn-success">Employees</a>
+	<br/>
+	<h2>Daftar Department</h2>
 	<button class="btn btn-info" id="tbladd">Tambah Data</button>
 	<table id="data-departments" class="table table-striped table-bordered"
 		cellspacing="0" width="100%">
@@ -134,7 +141,7 @@ $(document).ready(function(){
 					<td>${departments.departmentName }</td>
 					<td>${departments.locations.streetAddress }</td>
 					<td>${departments.locations.city }</td>
-					<td>${departments.manager.firstName } ${departments.manager.lastName }</td>
+					<td>${departments.managers.firstName } ${departments.managers.lastName }</td>
 					<td><a href="#" id="${departments.id }"
 						class="tbldelete btn btn-warning">Delete</a> | <a href="#"
 						id="${departments.id }" class="tblupdate btn btn-success">Update</a></td>

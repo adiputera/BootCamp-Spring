@@ -3,6 +3,7 @@ package com.xsis.batch137.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,16 +41,16 @@ public class Employees {
 	@Column(name="commission_pct")
 	private float commissionPct;
 	
-	@ManyToOne(cascade=javax.persistence.CascadeType.ALL)
+	@ManyToOne
 	private Employees manager;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="manager")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="manager", cascade= {CascadeType.ALL})
 	private List<Employees> employees;
 	
-	@ManyToOne(cascade=javax.persistence.CascadeType.ALL)
+	@ManyToOne
 	private Departments departments;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="manager")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="managers", cascade= {CascadeType.ALL})
 	private List<Departments> department;
 
 	public int getId() {

@@ -3,12 +3,14 @@ package com.xsis.batch137.model;
 import java.util.List;
 
 import javax.annotation.Generated;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,11 +29,12 @@ public class Departments {
 	@ManyToOne
 	private Locations locations;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="departments")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="departments", cascade= {CascadeType.ALL})
 	private List<Employees> employees;
 	
-	@ManyToOne(cascade=javax.persistence.CascadeType.ALL)
-	private Employees manager;
+	@ManyToOne
+	@JoinColumn(name="manager_id")
+	private Employees managers;
 	
 	public int getId() {
 		return id;
@@ -65,11 +68,13 @@ public class Departments {
 		this.employees = employees;
 	}
 
-	public Employees getManager() {
-		return manager;
+	public Employees getManagers() {
+		return managers;
 	}
 
-	public void setManager(Employees manager) {
-		this.manager = manager;
+	public void setManagers(Employees managers) {
+		this.managers = managers;
 	}
+
+
 }

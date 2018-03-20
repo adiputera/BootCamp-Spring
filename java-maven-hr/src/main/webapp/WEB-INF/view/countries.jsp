@@ -111,6 +111,14 @@ $(document).ready(function(){
 </head>
 <body>
 <div class="container">
+	<br/>
+	<a href="${pageContext.request.contextPath }/" class="btn btn-success">Halaman Depan</a>
+	<a href="${pageContext.request.contextPath }/regions" class="btn btn-success">Regions</a>
+	<a href="${pageContext.request.contextPath }/countries" class="btn btn-success">Countries</a>
+	<a href="${pageContext.request.contextPath }/locations" class="btn btn-success">Locations</a>
+	<a href="${pageContext.request.contextPath }/departments" class="btn btn-success">Departments</a>
+	<a href="${pageContext.request.contextPath }/employees" class="btn btn-success">Employees</a>
+	<br/>
 	<h2>Daftar Countries</h2>
 	<button class="btn btn-info" id="tbladd">Tambah Data</button>
 	<table id="data-countries" class="table table-striped table-bordered"
