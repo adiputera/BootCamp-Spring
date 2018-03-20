@@ -223,7 +223,7 @@ $(document).ready(function(){
 							<label for="exampleInputPassword1">Manager :</label>
 							<select id="in-manager">
 								<c:forEach items="${employeess }" var="emp">
-									<option value="${emp.id }">${emp.firstName }</option>
+									<option value="${emp.id }">${emp.firstName } ${emp.lastName }</option>
 								</c:forEach>
 							</select>
 						</div>

@@ -33,7 +33,7 @@ public class Departments {
 	private List<Employees> employees;
 	
 	//relasi manager
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name="manager_id")
 	private Employees managers;
 	
