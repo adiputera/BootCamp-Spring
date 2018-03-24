@@ -39,11 +39,12 @@ public class OrderController {
 		model.addAttribute("orders", dataOrder);
 		float totalHarga = 0;
 		int totalItem = 0;
-		
-		for(Order order : dataOrder) {
-			float total = order.getBarang().getHarga() * order.getJumlahBeli();
-			totalHarga = totalHarga + total;
-			totalItem = totalItem+1;
+		if(dataOrder!=null) {
+			for(Order order : dataOrder) {
+				float total = order.getBarang().getHarga() * order.getJumlahBeli();
+				totalHarga = totalHarga + total;
+				totalItem = totalItem+1;
+			}
 		}
 		model.addAttribute("totalHarga", totalHarga);
 		model.addAttribute("totalItem", totalItem);
@@ -59,10 +60,12 @@ public class OrderController {
 		float totalHarga = 0;
 		int totalItem = 0;
 		
-		for(Order order : dataOrder) {
-			float total = order.getBarang().getHarga() * order.getJumlahBeli();
-			totalHarga = totalHarga + total;
-			totalItem = totalItem+1;
+		if(dataOrder!=null) {
+			for(Order order : dataOrder) {
+				float total = order.getBarang().getHarga() * order.getJumlahBeli();
+				totalHarga = totalHarga + total;
+				totalItem = totalItem+1;
+			}
 		}
 		model.addAttribute("totalHarga", totalHarga);
 		model.addAttribute("totalItem", totalItem);
@@ -78,10 +81,12 @@ public class OrderController {
 		float totalHarga = 0;
 		int totalItem = 0;
 		
-		for(Order order : dataOrder) {
-			float total = order.getBarang().getHarga() * order.getJumlahBeli();
-			totalHarga = totalHarga + total;
-			totalItem = totalItem+1;
+		if(dataOrder!=null) {
+			for(Order order : dataOrder) {
+				float total = order.getBarang().getHarga() * order.getJumlahBeli();
+				totalHarga = totalHarga + total;
+				totalItem = totalItem+1;
+			}
 		}
 		model.addAttribute("totalHarga", totalHarga);
 		model.addAttribute("totalItem", totalItem);
@@ -97,10 +102,12 @@ public class OrderController {
 		float totalHarga = 0;
 		int totalItem = 0;
 		
-		for(Order order : dataOrder) {
-			float total = order.getBarang().getHarga() * order.getJumlahBeli();
-			totalHarga = totalHarga + total;
-			totalItem = totalItem+1;
+		if(dataOrder!=null) {
+			for(Order order : dataOrder) {
+				float total = order.getBarang().getHarga() * order.getJumlahBeli();
+				totalHarga = totalHarga + total;
+				totalItem = totalItem+1;
+			}
 		}
 		model.addAttribute("totalHarga", totalHarga);
 		model.addAttribute("totalItem", totalItem);
